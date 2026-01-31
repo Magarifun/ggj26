@@ -158,9 +158,9 @@ MonoBehaviour:
   chasedProgressAtLevelStart: 0.5
   chaseInitialDelay: 10
   initialChaseDuration: 20
-  extraDurationPerLevel: 1
-  initialScoreGoal: 1000
-  extraScoreGoalPerLevel: 1000
+  extraDurationPerLevel: 0
+  initialScoreGoal: 50
+  extraScoreGoalPerLevel: 100
   chaser: {fileID: 6339968439827918653}
   chased: {fileID: 4523222373810411823}
   levelLabel: {fileID: 5621624104942167590}

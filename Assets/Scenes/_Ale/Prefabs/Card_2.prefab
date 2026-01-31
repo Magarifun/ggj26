@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &1310945514177711954
 GameObject:
@@ -339,6 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &2181276712760593134
 GameObject:
@@ -509,6 +511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &2344607294195567116
 GameObject:
@@ -819,6 +822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &2966377756022873034
 GameObject:
@@ -1129,6 +1133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &4429381843503830365
 GameObject:
@@ -1430,7 +1435,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1855921936, guid: 2fd65f615eeb544c0bee50064ce0dddf, type: 3}
+  m_Sprite: {fileID: -1041660359, guid: 6e7652b8d337d7348872cd9c1096230d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1795,6 +1800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &6001643895629049071
 GameObject:
@@ -1965,6 +1971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &6475622801684751534
 GameObject:
@@ -2135,6 +2142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &6995042279803911203
 GameObject:
@@ -2623,6 +2631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &8599072054098569437
 GameObject:
@@ -2793,6 +2802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &8831150342334282300
 GameObject:
@@ -3164,6 +3174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
 --- !u!1 &9198243900574895460
 GameObject:
@@ -3334,4 +3345,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 1
