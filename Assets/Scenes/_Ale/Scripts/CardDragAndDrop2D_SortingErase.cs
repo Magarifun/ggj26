@@ -7,7 +7,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform cardDragger;     // child con Collider2D
-    [SerializeField] private Transform snapAnchor;      // child "SnapAnchor" nel prefab
+    [SerializeField] private Transform snapAnchor;      // child "SnapAnchor"
     [SerializeField] private Camera cam;
     [SerializeField] private LayerMask draggableLayer;
 
@@ -20,15 +20,22 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     [SerializeField] private float dragSnapDistance = 2.5f;
 
     [Header("Tiles Overlap (2D)")]
-    [SerializeField] private LayerMask tileLayer;
+    [SerializeField] private LayerMask tileLayer;       // <-- metti Tile2D
     [SerializeField] private bool includeTriggers = true;
 
     [Header("Sorting")]
     [SerializeField] private int dragSortingDelta = 1;
     [SerializeField] private int resetSortingOrder = 0;
 
+    [Header("Overlap Precision")]
+    [Tooltip("Più alto = elimina meno (più strict). 0.001 è un buon default.")]
+    [SerializeField] private float overlapEpsilon = 0.001f;
+
     [Header("Startup Cleanup")]
     [SerializeField] private bool destroyTilesWithAlphaZeroOnStart = true;
+
+    [Header("Tile Grid Snap")]
+    [SerializeField] private float tileSize = 1f;
 
     private Collider2D draggerCollider;
     private bool isDragging;
@@ -41,14 +48,14 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     private readonly List<Collider2D> overlapResults = new List<Collider2D>(32);
     private readonly HashSet<Collider2D> toDestroy = new HashSet<Collider2D>();
 
-    // ✅ SOLO TILE (filtrate su tileLayer)
+    // cache SOLO tile
     private Collider2D[] tileColliders;
     private SpriteRenderer[] tileRenderers;
 
-    private Coroutine dropRoutine;
+    // card colpite (quelle sotto che perdono tile)
+    private readonly HashSet<CardLifecycle> affectedCards = new HashSet<CardLifecycle>();
 
-    // Cache lifecycle (per pooler)
-    private CardLifecycle lifecycle;
+    private Coroutine dropRoutine;
 
     private void Awake()
     {
@@ -68,9 +75,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 
         draggerCollider = cardDragger != null ? cardDragger.GetComponent<Collider2D>() : null;
         if (draggerCollider == null)
-            Debug.LogError("CardDragger deve avere un Collider2D!");
-
-        lifecycle = GetComponent<CardLifecycle>(); // può essere null se non c'è (ok)
+            Debug.LogError("[CardDragAndDrop] CardDragger deve avere un Collider2D!");
 
         fixedZ = transform.position.z;
 
@@ -151,6 +156,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
             return;
         }
 
+        // snap live anche su slot occupati
         BoardSlot2D slot = GetClosestSlot(target, dragSnapDistance);
         if (slot != null)
         {
@@ -163,23 +169,33 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         }
     }
 
-    private void EndDrag()
-    {
-        isDragging = false;
+   private void EndDrag()
+{
+    isDragging = false;
 
-        // ✅ se snappa davvero => è "placed" (pooler respawn)
-        bool snapped = SnapThisCardPreferFree();
-        Physics2D.SyncTransforms();
+    bool snapped = SnapToClosestSlotAllowOccupied();
+    Physics2D.SyncTransforms();
 
-        if (snapped)
-        {
-            // se non c'è già, puoi anche aggiungerlo automaticamente:
-            if (lifecycle == null) lifecycle = GetComponent<CardLifecycle>();
-            lifecycle?.MarkPlaced();
-        }
+    if (snapped)
+        GetComponent<CardLifecycle>()?.MarkPlaced();
 
-        dropRoutine = StartCoroutine(DestroyAfterPhysicsUpdate());
-    }
+    dropRoutine = StartCoroutine(DestroyAfterPhysicsUpdate());
+}
+
+    private bool SnapToClosestSlotAllowOccupied()
+{
+    if (board == null) return false;
+
+    BoardSlot2D slot = GetClosestSlot(transform.position, snapDistance);
+    if (slot == null) return false;
+
+    MoveCardToSlotPosition(slot.transform.position);
+
+    // NON tocchiamo occupied qui, perché vogliamo permettere overlap
+    currentSlot = slot;
+
+    return true;
+}
 
     private IEnumerator DestroyAfterPhysicsUpdate()
     {
@@ -187,9 +203,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 
         DestroyTilesStillUnderMe();
 
-        // dopo aver distrutto tile, controlla se ha perso tile (per reintrodurre nel pool)
-        if (lifecycle == null) lifecycle = GetComponent<CardLifecycle>();
-        lifecycle?.CheckIfLostTiles();
+        Physics2D.SyncTransforms();
 
         SetSortingOrder(resetSortingOrder);
 
@@ -220,45 +234,48 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         return best;
     }
 
-    /// <summary>
-    /// Snappa preferendo slot libero. Ritorna TRUE se ha snappato a uno slot valido (libero o qualunque).
-    /// </summary>
-    private bool SnapThisCardPreferFree()
+    // private bool SnapThisCardPreferFree()
+    // {
+    //     if (board == null) return false;
+
+    //     // 1) preferisci libero
+    //     BoardSlot2D free = board.GetClosestFreeSlot(transform.position, snapDistance);
+    //     if (free != null)
+    //     {
+    //         MoveCardToSlotPosition(free.transform.position);
+    //         free.occupied = true;
+    //         currentSlot = free;
+    //         return true;
+    //     }
+
+    //     // 2) altrimenti snap su occupato
+    //     BoardSlot2D any = GetClosestSlot(transform.position, snapDistance);
+    //     if (any != null)
+    //     {
+    //         MoveCardToSlotPosition(any.transform.position);
+    //         return true;
+    //     }
+
+    //     return false;
+    // }
+
+  private void MoveCardToSlotPosition(Vector3 slotPosition)
+{
+    // snap del target alla griglia delle tile
+    float snappedX = Mathf.Round(slotPosition.x / tileSize) * tileSize;
+    float snappedY = Mathf.Round(slotPosition.y / tileSize) * tileSize;
+
+    Vector3 desired = new Vector3(snappedX, snappedY, fixedZ);
+
+    if (snapAnchor == null)
     {
-        if (board == null) return false;
-
-        BoardSlot2D free = board.GetClosestFreeSlot(transform.position, snapDistance);
-        if (free != null)
-        {
-            MoveCardToSlotPosition(free.transform.position);
-            free.occupied = true;
-            currentSlot = free;
-            return true;
-        }
-
-        BoardSlot2D any = GetClosestSlot(transform.position, snapDistance);
-        if (any != null)
-        {
-            MoveCardToSlotPosition(any.transform.position);
-            return true;
-        }
-
-        return false;
+        transform.position = desired;
+        return;
     }
 
-    private void MoveCardToSlotPosition(Vector3 slotPosition)
-    {
-        Vector3 desired = new Vector3(slotPosition.x, slotPosition.y, fixedZ);
-
-        if (snapAnchor == null)
-        {
-            transform.position = desired;
-            return;
-        }
-
-        Vector3 delta = desired - snapAnchor.position;
-        transform.position += new Vector3(delta.x, delta.y, 0f);
-    }
+    Vector3 delta = desired - snapAnchor.position;
+    transform.position += new Vector3(delta.x, delta.y, 0f);
+}
 
     // ---------- DESTROY ----------
 
@@ -267,6 +284,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         if (tileColliders == null || tileColliders.Length == 0) return;
 
         toDestroy.Clear();
+        affectedCards.Clear();
 
         foreach (var myTile in tileColliders)
         {
@@ -283,28 +301,47 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
                 Collider2D hit = overlapResults[i];
                 if (hit == null) continue;
 
+                // ignora tile della stessa card che sto muovendo
                 if (hit.transform.IsChildOf(transform))
                     continue;
 
                 SpriteRenderer hitSR = hit.GetComponent<SpriteRenderer>();
                 if (hitSR == null) continue;
 
+                // deve essere sotto in sorting order
                 if (hitSR.sortingOrder >= mySR.sortingOrder)
                     continue;
 
+                // deve essere visibile
                 if (hitSR.color.a <= 0f)
                     continue;
 
+                // overlap reale (evita adiacenti)
                 ColliderDistance2D d = myTile.Distance(hit);
+                if (!d.isOverlapped || d.distance > -overlapEpsilon)
+                    continue;
+
+                // salva la card colpita (quella sotto)
+                CardLifecycle otherLife = hit.GetComponentInParent<CardLifecycle>();
+                if (otherLife != null)
+                    affectedCards.Add(otherLife);
 
                 toDestroy.Add(hit);
             }
         }
 
+        // distruggi tile sotto
         foreach (var col in toDestroy)
         {
             if (col == null) continue;
             Destroy(col.gameObject);
+        }
+
+        // 🔥 NOTIFICA IMMEDIATA alle card colpite (1 volta ciascuna)
+        foreach (var life in affectedCards)
+        {
+            if (life == null) continue;
+            life.NotifyLostTile();
         }
 
         RefreshTileCache();
@@ -318,6 +355,10 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         {
             if (sr == null) continue;
 
+            // distruggi SOLO se è Tile2D
+            if (!IsInLayerMask(sr.gameObject.layer, tileLayer))
+                continue;
+
             float alphaSprite = sr.color.a;
 
             float alphaMat = 1f;
@@ -329,7 +370,6 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         }
     }
 
-    // ✅ Cache SOLO tile (layer filter)
     private void RefreshTileCache()
     {
         var allCols = GetComponentsInChildren<Collider2D>(true);
