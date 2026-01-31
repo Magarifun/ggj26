@@ -272,6 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 2
 --- !u!60 &1091754039540836679
 PolygonCollider2D:
@@ -319,11 +320,13 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 0.5773587}
-      - {x: -0.50404847, y: -0.28866667}
+    - - {x: 0.30212107, y: 0.8369457}
+      - {x: 0, y: 0.9092632}
+      - {x: -0.28718784, y: 0.8689767}
+      - {x: -0.5330947, y: 0.63265646}
       - {x: -0.50596434, y: -1.9665453}
       - {x: 0.5047275, y: -1.958109}
-      - {x: 0.5, y: -0.28866667}
+      - {x: 0.49273846, y: 0.6326564}
   m_UseDelaunayMesh: 1
 --- !u!1 &3417321262295863124
 GameObject:
@@ -458,6 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 2
 --- !u!60 &4619905604768201315
 PolygonCollider2D:
@@ -506,8 +510,11 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0.29310197, y: 0.0964579}
-      - {x: 0, y: 0.5773587}
-      - {x: -0.52795565, y: -0.3825394}
+      - {x: 0.04216613, y: 0.5206324}
+      - {x: -0.33144584, y: 0.4010966}
+      - {x: -0.7452841, y: 0.13828605}
+      - {x: -1.0075071, y: -0.14113794}
+      - {x: -1.1422691, y: -0.45521381}
       - {x: 0.48784086, y: -0.25498432}
   m_UseDelaunayMesh: 1
 --- !u!1 &3595259846495503374
@@ -1541,6 +1548,7 @@ MonoBehaviour:
   overlapEpsilon: 0.001
   destroyTilesWithAlphaZeroOnStart: 1
   lockAfterPlaced: 1
+  disableLevel3CollidersWhileDragging: 1
   drawSnapAreaGizmos: 1
   debugLive: 1
   dbg_hasTileBounds: 0
@@ -1553,6 +1561,7 @@ MonoBehaviour:
   dbg_predictedBoundsMin: {x: 0, y: 0}
   dbg_predictedBoundsMax: {x: 0, y: 0}
   dbg_tolerance: 0
+  isPlaced: 0
 --- !u!114 &2818744490275265602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1846,6 +1855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  score: 10
   impulse: 2
 --- !u!60 &6496529783623480463
 PolygonCollider2D:
@@ -1893,8 +1903,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.29310197, y: 0.0964579}
-      - {x: 0, y: 0.5773587}
+    - - {x: 1.0925682, y: -0.25426513}
+      - {x: 0.8067988, y: 0.09778161}
+      - {x: 0.37500116, y: 0.37799686}
+      - {x: -0.035788205, y: 0.51293945}
       - {x: -0.5, y: -0.28866667}
-      - {x: 0.55448467, y: -0.40372536}
+      - {x: 1.149736, y: -0.50182724}
   m_UseDelaunayMesh: 1

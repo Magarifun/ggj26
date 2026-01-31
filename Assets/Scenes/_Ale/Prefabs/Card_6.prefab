@@ -757,13 +757,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6936792994339926266}
   serializedVersion: 2
-  m_LocalRotation: {x: -8.185452e-12, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2879197601958583360}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1336139445906182772
 SpriteRenderer:
   serializedVersion: 2
@@ -875,8 +875,8 @@ MonoBehaviour:
   threshold: 3
   score: 100
   toggler: 0
-  onSprite: {fileID: -1775156658, guid: 6fbb9453a5eabd54cb4d242b2500ffab, type: 3}
-  offSprite: {fileID: 879808750, guid: d68f7ad298f7222408c67c26734dc637, type: 3}
+  onSprite: {fileID: 1221505560, guid: 01d84d2417d1cc64b85fe0a99a4d3e82, type: 3}
+  offSprite: {fileID: 1885801055, guid: 6b4fc6924d21a9d41a31b9124ab53880, type: 3}
   OnCompleteSwitcherGroup:
     m_PersistentCalls:
       m_Calls: []
@@ -1382,6 +1382,7 @@ MonoBehaviour:
   overlapEpsilon: 0.001
   destroyTilesWithAlphaZeroOnStart: 1
   lockAfterPlaced: 1
+  disableLevel3CollidersWhileDragging: 1
   drawSnapAreaGizmos: 1
   debugLive: 1
   dbg_hasTileBounds: 0
@@ -1394,6 +1395,7 @@ MonoBehaviour:
   dbg_predictedBoundsMin: {x: 0, y: 0}
   dbg_predictedBoundsMax: {x: 0, y: 0}
   dbg_tolerance: 0
+  isPlaced: 0
 --- !u!114 &7433737302098505429
 MonoBehaviour:
   m_ObjectHideFlags: 0
