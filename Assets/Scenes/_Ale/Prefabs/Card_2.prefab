@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 2768109882219642458}
   - component: {fileID: 6078522815434857944}
   - component: {fileID: 7056694607037499858}
+  - component: {fileID: 480792991239618035}
   m_Layer: 0
   m_Name: Wall_Round (3)
   m_TagString: Untagged
@@ -294,6 +295,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &480792991239618035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257765192860384286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &1310945514177711954
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,6 +320,7 @@ GameObject:
   - component: {fileID: 3920847389138186925}
   - component: {fileID: 5973621417417023846}
   - component: {fileID: 8427145021278172054}
+  - component: {fileID: 7686968996583747414}
   m_Layer: 0
   m_Name: Wall_Round (2)
   m_TagString: Untagged
@@ -450,6 +465,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7686968996583747414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310945514177711954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &2181276712760593134
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,6 +490,7 @@ GameObject:
   - component: {fileID: 7807952490620511795}
   - component: {fileID: 5447527107105943399}
   - component: {fileID: 2083883958594482875}
+  - component: {fileID: 5103172558770927276}
   m_Layer: 0
   m_Name: Wall_Round (6)
   m_TagString: Untagged
@@ -606,6 +635,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5103172558770927276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2181276712760593134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &2344607294195567116
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,6 +800,7 @@ GameObject:
   - component: {fileID: 5229182175962053203}
   - component: {fileID: 6539372594352856954}
   - component: {fileID: 8813354916801526178}
+  - component: {fileID: 1959856159773255908}
   m_Layer: 0
   m_Name: Wall_Round
   m_TagString: Untagged
@@ -902,6 +945,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1959856159773255908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2481368849660646988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &2966377756022873034
 GameObject:
   m_ObjectHideFlags: 0
@@ -1054,6 +1110,7 @@ GameObject:
   - component: {fileID: 6971516250362250999}
   - component: {fileID: 4553180006603810647}
   - component: {fileID: 202194372798315301}
+  - component: {fileID: 2434666410238408929}
   m_Layer: 0
   m_Name: Wall_Round (4)
   m_TagString: Untagged
@@ -1198,6 +1255,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2434666410238408929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487355839681901723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &4429381843503830365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1706,6 +1776,7 @@ GameObject:
   - component: {fileID: 1259912633684181010}
   - component: {fileID: 4439015695227329654}
   - component: {fileID: 8339502220208920096}
+  - component: {fileID: 1149403370907669810}
   m_Layer: 0
   m_Name: Wall_Round (5)
   m_TagString: Untagged
@@ -1850,6 +1921,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1149403370907669810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5233007295763385203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &6001643895629049071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,6 +1946,7 @@ GameObject:
   - component: {fileID: 8074429021135639440}
   - component: {fileID: 2325636190906021193}
   - component: {fileID: 4189083392934109281}
+  - component: {fileID: 7071140697996670158}
   m_Layer: 0
   m_Name: Wall_Round (3)
   m_TagString: Untagged
@@ -2006,6 +2091,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7071140697996670158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6001643895629049071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &6475622801684751534
 GameObject:
   m_ObjectHideFlags: 0
@@ -2018,6 +2116,7 @@ GameObject:
   - component: {fileID: 8806011161285248002}
   - component: {fileID: 6919016518936259454}
   - component: {fileID: 6756630911990269930}
+  - component: {fileID: 4619079115026256942}
   m_Layer: 0
   m_Name: Wall_Round (1)
   m_TagString: Untagged
@@ -2162,6 +2261,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4619079115026256942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475622801684751534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &6995042279803911203
 GameObject:
   m_ObjectHideFlags: 0
@@ -2494,6 +2606,7 @@ GameObject:
   - component: {fileID: 6679550642858805837}
   - component: {fileID: 2417409026350398955}
   - component: {fileID: 6680383409202348584}
+  - component: {fileID: 1940390063905738513}
   m_Layer: 0
   m_Name: Wall_Round (7)
   m_TagString: Untagged
@@ -2638,6 +2751,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1940390063905738513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7403634410535355042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &7634880981736034325
 GameObject:
   m_ObjectHideFlags: 0
@@ -2788,6 +2914,7 @@ GameObject:
   - component: {fileID: 8053141045319762552}
   - component: {fileID: 2527182609220739478}
   - component: {fileID: 8256245761471986478}
+  - component: {fileID: 5920978742349900980}
   m_Layer: 0
   m_Name: Wall_Round (4)
   m_TagString: Untagged
@@ -2932,6 +3059,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5920978742349900980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8599072054098569437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &8831150342334282300
 GameObject:
   m_ObjectHideFlags: 0
@@ -3071,6 +3211,7 @@ GameObject:
   - component: {fileID: 4724139807308982648}
   - component: {fileID: 6628216900197867482}
   - component: {fileID: 1989449398249959245}
+  - component: {fileID: 9068288539283041654}
   m_Layer: 0
   m_Name: Wall_Round (2)
   m_TagString: Untagged
@@ -3215,6 +3356,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &9068288539283041654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9041652710500314998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
 --- !u!1 &9198243900574895460
 GameObject:
   m_ObjectHideFlags: 0
@@ -3227,6 +3381,7 @@ GameObject:
   - component: {fileID: 7521293339889954996}
   - component: {fileID: 8880797453233399147}
   - component: {fileID: 5956373172270014566}
+  - component: {fileID: 6002762006608388418}
   m_Layer: 0
   m_Name: Wall_Round (5)
   m_TagString: Untagged
@@ -3371,3 +3526,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6002762006608388418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198243900574895460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  impulse: 1
