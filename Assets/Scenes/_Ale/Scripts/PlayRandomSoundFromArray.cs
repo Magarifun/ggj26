@@ -64,6 +64,7 @@ public class PlayRandomSoundFromArray : MonoBehaviour
             source.volume = Random.Range(volumeRange.x, volumeRange.y);
 
         source.PlayOneShot(clips[idx]);
+        Debug.Log("PLAY!!");
 
         // restore (PlayOneShot doesn't change pitch/volume mid-play, but keeps settings for next)
         source.pitch = prevPitch;
