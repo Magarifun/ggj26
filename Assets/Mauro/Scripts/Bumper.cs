@@ -8,6 +8,7 @@ public class Bumper : MonoBehaviour
     void Start()
     {
         impulse = Mathf.Abs(impulse);
+        gameObject.AddComponent(typeof(Exhausting));
     }
 
     void Update()
