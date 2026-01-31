@@ -6,7 +6,8 @@ using UnityEngine.Events;
 public class Chase : MonoBehaviour
 {
     public float chasedProgressAtLevelStart;
-    public float initialDuration;
+    public float chaseInitialDelay;
+    public float initialChaseDuration;
     public float extraDurationPerLevel;
     public int initialScoreGoal;
     public int extraScoreGoalPerLevel;
@@ -40,32 +41,46 @@ public class Chase : MonoBehaviour
         levelLabel.text = new RomanNumeral(newLevel).ToString();
         score = 0;
         scoreGoal = initialScoreGoal + extraScoreGoalPerLevel * (level - 1);
-        chaser.Speed = 1.0f / (initialDuration + extraDurationPerLevel * (level - 1));
+        if (level > 1)
+        {
+            SetChaserSpeed();
+        } else
+        {
+            chaser.Speed = 0f;
+            Invoke(nameof(SetChaserSpeed), chaseInitialDelay);
+        }
         chaser.Progress = 0.0f;
+        chased.Progress = chasedProgressAtLevelStart;
+    }
+
+    private void SetChaserSpeed()
+    {
+        chaser.Speed = 1.0f / (initialChaseDuration + extraDurationPerLevel * (level - 1));
     }
 
     private void OnUpdateScore()
     {
-        scoreLabel.text = score + " / " + scoreGoal;
-        chased.Progress = (1.0f - chasedProgressAtLevelStart) * ((float) score / scoreGoal) + chasedProgressAtLevelStart;
+        chased.Progress = (1.0f - chasedProgressAtLevelStart) * ((float)score / scoreGoal) + chasedProgressAtLevelStart;
     }
 
     public void AddScore(int points)
     {
         score += points;
-        if (score >= scoreGoal)
-        {
-            SetLevel(level + 1);
-        }
         OnUpdateScore();
     }
 
     // Update is called once per frame
     void Update()
     {
+        scoreLabel.text = Mathf.RoundToInt(chased.ActualProgress * scoreGoal) + " / " + scoreGoal;
         if (chaser.ActualProgress >= chased.ActualProgress)
         {
             onChaseEnd?.Invoke();
+            chaser.Progress = 0f;
+        }
+        else if (chased.ActualProgress >= 1.0f)
+        {
+            SetLevel(level + 1);
         }
     }
 }

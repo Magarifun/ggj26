@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -2.75, y: 0.25}
-  m_SizeDelta: {x: 1, y: 1}
+  m_SizeDelta: {x: 2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5581214350134190334
 MonoBehaviour:
@@ -51,7 +51,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Score
   points: 0
-  speed: 10
+  acceleration: 5
+  minFontSize: 2
+  maxFontSize: 6
+  scoreForMaxFontSize: 1000
 --- !u!23 &9002288272837429122
 MeshRenderer:
   m_ObjectHideFlags: 0
