@@ -32,6 +32,7 @@ public class Flipper : MonoBehaviour
             Vector2 normalizedImpact = impulseFactor * Mathf.Sqrt(Mathf.Abs(Physics2D.gravity.y)) * impact;
             collision.rigidbody.totalForce = Vector2.zero;
             collision.rigidbody.AddForce(-normalizedImpact, ForceMode2D.Impulse);
+            Scorer.Instance.ScorePoints(100, this);
         }
     }
 }
