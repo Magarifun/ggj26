@@ -16,7 +16,6 @@ public class Chase : MonoBehaviour
     public TextMeshProUGUI scoreLabel;
     public UnityEvent onChaseEnd;
     private int level;
-    private float chaserSpeed;
     private int scoreGoal;
     private int score;
     private static Chase instance;
@@ -41,14 +40,14 @@ public class Chase : MonoBehaviour
         levelLabel.text = new RomanNumeral(newLevel).ToString();
         score = 0;
         scoreGoal = initialScoreGoal + extraScoreGoalPerLevel * (level - 1);
-        chaserSpeed = 1.0f / (initialDuration + extraDurationPerLevel * (level - 1));
-        chaser.progress = 0.0f;
+        chaser.Speed = 1.0f / (initialDuration + extraDurationPerLevel * (level - 1));
+        chaser.Progress = 0.0f;
     }
 
     private void OnUpdateScore()
     {
         scoreLabel.text = score + " / " + scoreGoal;
-        chased.progress = (1.0f - chasedProgressAtLevelStart) * ((float) score / scoreGoal) + chasedProgressAtLevelStart;
+        chased.Progress = (1.0f - chasedProgressAtLevelStart) * ((float) score / scoreGoal) + chasedProgressAtLevelStart;
     }
 
     public void AddScore(int points)
@@ -64,8 +63,7 @@ public class Chase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        chaser.progress += chaserSpeed * Time.deltaTime;
-        if (chaser.progress >= chased.progress)
+        if (chaser.ActualProgress >= chased.ActualProgress)
         {
             onChaseEnd?.Invoke();
         }

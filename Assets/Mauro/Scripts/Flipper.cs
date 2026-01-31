@@ -29,9 +29,10 @@ public class Flipper : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             Vector2 impact = body.GetPointVelocity(collision.contacts[0].point);
-            Vector2 normalizedImpact = impulseFactor * Mathf.Sqrt(Mathf.Abs(Physics2D.gravity.y)) * impact;
+            Vector2 normalizedImpact = FeelTuning.CompensateForGravity(impulseFactor) * impact;
             collision.rigidbody.totalForce = Vector2.zero;
             collision.rigidbody.AddForce(-normalizedImpact, ForceMode2D.Impulse);
+            Scorer.Instance.ScorePoints(100, this);
         }
     }
 }
