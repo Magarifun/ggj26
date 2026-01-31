@@ -47,7 +47,6 @@ public class SoundManager : MonoBehaviour
         }
 
         I = this;
-        DontDestroyOnLoad(gameObject);
 
         if (musicSource == null)
         {
