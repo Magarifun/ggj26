@@ -107,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 355a35e4b77e396488c7845da0d3b4cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Flipper
-  key: 305
-  impulseFactor: 0.2
+  score: 0
+  impulseFactor: 0.005
 --- !u!95 &652471230092328352
 Animator:
   serializedVersion: 7
