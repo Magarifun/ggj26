@@ -2457,7 +2457,7 @@ MonoBehaviour:
   snapWhileDragging: 1
   dragSnapDistance: 2.5
   useSnapLimits: 1
-  snapAreaMin: {x: -10, y: -6}
+  snapAreaMin: {x: -10.58, y: -6}
   snapAreaMax: {x: 6, y: 4.5}
   hardClampToLimits: 1
   insideTolerance: 0.02
@@ -2532,11 +2532,13 @@ MonoBehaviour:
   m_AlphaCutoff: 0.1
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
-  - {x: -1.484272, y: -1.5066421, z: 0}
+  - {x: -0.482872, y: -0.5423305, z: 0}
+  - {x: -1.4802122, y: -0.5667882, z: 0}
   - {x: -1.5066414, y: 1.5140986, z: 0}
   - {x: 1.5066419, y: 1.4991856, z: 0}
   - {x: 1.4768152, y: -1.491729, z: 0}
-  m_ShapePathHash: -141258639
+  - {x: -0.46026707, y: -1.5125554, z: 0}
+  m_ShapePathHash: -1743083639
   m_InstanceId: 0
   m_ShadowShape2DComponent: {fileID: 0}
   m_ShadowShape2DProvider:
@@ -2545,8 +2547,8 @@ MonoBehaviour:
   m_ShadowMesh:
     m_Mesh: {fileID: 0}
     m_LocalBounds:
-      m_Center: {x: 0.00000023841858, y: 0.0037282705, z: 0}
-      m_Extent: {x: 1.5066416, y: 1.5103704, z: 0}
+      m_Center: {x: 0.00000023841858, y: 0.00077164173, z: 0}
+      m_Extent: {x: 1.5066416, y: 1.513327, z: 0}
     m_EdgeProcessing: 1
     m_TrimEdge: 0
     m_FlipX: 0
