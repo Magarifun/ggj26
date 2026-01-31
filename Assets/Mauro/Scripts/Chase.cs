@@ -12,8 +12,8 @@ public class Chase : MonoBehaviour
     public int extraScoreGoalPerLevel;
     public ChaseIcon chaser;
     public ChaseIcon chased;
-    public TextMeshProUGUI levelLabel;
-    public TextMeshProUGUI scoreLabel;
+    public TextMeshPro levelLabel;
+    public TextMeshPro scoreLabel;
     public UnityEvent onChaseEnd;
     private int level;
     private int scoreGoal;
