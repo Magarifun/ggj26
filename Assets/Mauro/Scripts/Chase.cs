@@ -50,7 +50,7 @@ public class Chase : MonoBehaviour
             Invoke(nameof(SetChaserSpeed), chaseInitialDelay);
         }
         chaser.Progress = 0.0f;
-        chased.Progress = chasedProgressAtLevelStart;
+        OnUpdateScore();
     }
 
     private void SetChaserSpeed()
