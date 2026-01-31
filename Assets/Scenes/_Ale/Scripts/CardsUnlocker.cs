@@ -11,6 +11,10 @@ public class CardsUnlocker : MonoBehaviour
     [SerializeField] private Transform choicePointA;
     [SerializeField] private Transform choicePointB;
 
+    [Header("Background")]
+    [SerializeField] private GameObject backgroundPrefab;   // ✅ terzo render
+    [SerializeField] private Transform backgroundPoint;     // ✅ terzo transform
+
     [Header("Optional parent for spawned choices")]
     [SerializeField] private Transform choicesRoot;
 
@@ -22,14 +26,13 @@ public class CardsUnlocker : MonoBehaviour
     [SerializeField] private bool setLayerRecursively = true;
 
     [Header("Stop Everything While Choosing")]
-    [Tooltip("Se true, Time.timeScale=0 finché non scegli.")]
     [SerializeField] private bool pauseWithTimeScale = true;
-
-    [Tooltip("Pausa anche l'audio globale (AudioListener.pause) finché scegli.")]
     [SerializeField] private bool pauseAudioListener = false;
-
-    [Tooltip("Lista di script da disabilitare mentre sei in scelta (player controller, drag, pool manager, ecc.).")]
     [SerializeField] private MonoBehaviour[] disableWhileChoosing;
+
+    [Header("Hide other cards while choosing")]
+    [SerializeField] private Transform[] rootsToHide;
+    [SerializeField] private bool disableRootsToo = false;
 
     [Header("Safety: disable gameplay scripts on spawned choices")]
     [SerializeField] private bool disableDragAndDropOnChoiceCards = true;
@@ -41,8 +44,8 @@ public class CardsUnlocker : MonoBehaviour
     private float prevTimeScale = 1f;
     private bool prevAudioPaused = false;
 
-    // track per ripristinare gli script (nel caso alcuni fossero già disabilitati)
     private readonly Dictionary<MonoBehaviour, bool> prevEnabledState = new();
+    private readonly Dictionary<GameObject, bool> prevActiveState = new();
 
     private void Awake()
     {
@@ -69,10 +72,6 @@ public class CardsUnlocker : MonoBehaviour
         }
     }
 
-    // =========================================================
-    // PUBLIC API
-    // =========================================================
-
     public void Show2RandomLockedChoices()
     {
         if (pool == null)
@@ -87,7 +86,7 @@ public class CardsUnlocker : MonoBehaviour
             return;
         }
 
-        ClearChoices(); // chiude eventuale scelta precedente
+        ClearChoices();
 
         List<string> locked = pool.GetLockedCardIds();
         if (locked == null || locked.Count == 0)
@@ -95,6 +94,9 @@ public class CardsUnlocker : MonoBehaviour
             Debug.Log("[CardsUnlocker] Nessuna carta locked disponibile.");
             return;
         }
+
+        // ✅ background prima (così sta dietro)
+        SpawnBackground();
 
         // pick 2 diversi (se possibile)
         string idA = PickAndRemoveRandom(locked);
@@ -104,10 +106,7 @@ public class CardsUnlocker : MonoBehaviour
         if (!string.IsNullOrEmpty(idB))
             SpawnChoice(idB, choicePointB);
 
-        // 🔥 STOPPA TUTTO IL RESTO
         EnterChoiceMode();
-
-        Debug.Log($"[CardsUnlocker] Choices shown: {idA}" + (idB != null ? $" / {idB}" : ""));
     }
 
     public void ClearChoices()
@@ -123,15 +122,12 @@ public class CardsUnlocker : MonoBehaviour
             ExitChoiceMode();
     }
 
-    // =========================================================
-    // INTERNAL
-    // =========================================================
+    // ----------------- Choice mode -----------------
 
     private void EnterChoiceMode()
     {
         isChoosing = true;
 
-        // disable scripts
         prevEnabledState.Clear();
         if (disableWhileChoosing != null)
         {
@@ -145,14 +141,14 @@ public class CardsUnlocker : MonoBehaviour
             }
         }
 
-        // pause audio
+        HideRootsChildren();
+
         if (pauseAudioListener)
         {
             prevAudioPaused = AudioListener.pause;
             AudioListener.pause = true;
         }
 
-        // pause time
         if (pauseWithTimeScale)
         {
             prevTimeScale = Time.timeScale;
@@ -164,21 +160,82 @@ public class CardsUnlocker : MonoBehaviour
     {
         isChoosing = false;
 
-        // resume time
         if (pauseWithTimeScale)
             Time.timeScale = prevTimeScale;
 
-        // resume audio
         if (pauseAudioListener)
             AudioListener.pause = prevAudioPaused;
 
-        // re-enable scripts to previous state
+        RestoreHiddenObjects();
+
         foreach (var kv in prevEnabledState)
         {
             if (kv.Key == null) continue;
             kv.Key.enabled = kv.Value;
         }
         prevEnabledState.Clear();
+    }
+
+    // ----------------- Hide / Show -----------------
+
+    private void HideRootsChildren()
+    {
+        prevActiveState.Clear();
+
+        if (rootsToHide == null || rootsToHide.Length == 0)
+            return;
+
+        for (int r = 0; r < rootsToHide.Length; r++)
+        {
+            var root = rootsToHide[r];
+            if (root == null) continue;
+
+            if (disableRootsToo)
+                CacheAndSetActive(root.gameObject, false);
+
+            for (int i = 0; i < root.childCount; i++)
+            {
+                var child = root.GetChild(i);
+                if (child == null) continue;
+
+                CacheAndSetActive(child.gameObject, false);
+            }
+        }
+    }
+
+    private void RestoreHiddenObjects()
+    {
+        foreach (var kv in prevActiveState)
+        {
+            if (kv.Key == null) continue;
+            kv.Key.SetActive(kv.Value);
+        }
+        prevActiveState.Clear();
+    }
+
+    private void CacheAndSetActive(GameObject go, bool active)
+    {
+        if (go == null) return;
+        if (!prevActiveState.ContainsKey(go))
+            prevActiveState.Add(go, go.activeSelf);
+
+        go.SetActive(active);
+    }
+
+    // ----------------- Spawning -----------------
+
+    private void SpawnBackground()
+    {
+        if (backgroundPrefab == null) return;
+
+        Transform point = backgroundPoint != null ? backgroundPoint : choicesRoot;
+        GameObject bg = Instantiate(backgroundPrefab, point.position, point.rotation, choicesRoot);
+        bg.SetActive(true);
+        bg.name = "UNLOCK_BG";
+
+        // se vuoi che bg sia cliccabile? no. Quindi NON mettere choiceLayer.
+        // ma se hai layer specifico per UI/overlay, lo setti qui.
+        spawned.Add(bg);
     }
 
     private void SpawnChoice(string cardId, Transform point)
@@ -196,12 +253,10 @@ public class CardsUnlocker : MonoBehaviour
         go.SetActive(true);
         go.name = $"UNLOCK_CHOICE_{cardId}";
 
-        // tag per capire quale id hai cliccato
         var tag = go.GetComponent<CardUnlockChoiceTag>();
         if (tag == null) tag = go.AddComponent<CardUnlockChoiceTag>();
         tag.cardId = cardId;
 
-        // disabilita script gameplay sulle carte scelta
         if (disableDragAndDropOnChoiceCards)
         {
             var drag = go.GetComponentInChildren<CardDragAndDrop2D_SnapSortingErase>(true);
@@ -214,7 +269,6 @@ public class CardsUnlocker : MonoBehaviour
             if (life != null) life.enabled = false;
         }
 
-        // set layer per click
         int layerIndex = MaskToFirstLayerIndex(choiceLayer);
         if (layerIndex >= 0)
         {
@@ -228,11 +282,10 @@ public class CardsUnlocker : MonoBehaviour
     private void UnlockSelected(string cardId)
     {
         pool.SetCardUnlocked(cardId, true);
-        Debug.Log($"[CardsUnlocker] UNLOCKED -> {cardId}");
-
-        // chiude scelta (distrugge entrambe + resume)
         ClearChoices();
     }
+
+    // ----------------- Utils -----------------
 
     private static string PickAndRemoveRandom(List<string> list)
     {
@@ -257,10 +310,6 @@ public class CardsUnlocker : MonoBehaviour
             if ((v & (1 << i)) != 0) return i;
         return -1;
     }
-
-    // =========================================================
-    // DEBUG BUTTONS (Inspector)
-    // =========================================================
 
     [ContextMenu("DEBUG: Show 2 Random Locked Choices")]
     private void DebugShow() => Show2RandomLockedChoices();
