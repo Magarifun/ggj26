@@ -47,6 +47,10 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     [Header("Lock After Placed")]
     [SerializeField] private bool lockAfterPlaced = true;
 
+    [Header("Disable Level-3 Colliders While Dragging")]
+    [Tooltip("Disabilita i Collider2D che si trovano a profondità 3 sotto la Card: Card(0) > CardVariant(1) > TileX(2) > COMPONENT(3)")]
+    [SerializeField] private bool disableLevel3CollidersWhileDragging = true;
+
     [Header("Debug")]
     [SerializeField] private bool drawSnapAreaGizmos = true;
 
@@ -85,6 +89,8 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 
     private Collider2D[] tileColliders;
     private SpriteRenderer[] tileRenderers;
+
+    private Collider2D[] level3ChildColliders;
 
     private Coroutine dropRoutine;
 
@@ -127,6 +133,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
             DestroyTilesWithAlphaZero();
 
         RefreshTileCache();
+        CacheLevel3ChildColliders();
     }
 
     private void Update()
@@ -176,6 +183,10 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         offset.z = 0f;
 
         AddSortingOrder(dragSortingDelta);
+
+        // Disabilita collider depth 3 (Card > CardVariant > TileX > COMPONENT) mentre trascini
+        if (disableLevel3CollidersWhileDragging)
+            SetLevel3CollidersEnabled(false);
     }
 
     private void Drag(Vector2 mouseWorld)
@@ -240,6 +251,10 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
                     draggerCollider.enabled = false;
             }
         }
+
+        // Riabilita collider depth 3 dopo il drag
+        if (disableLevel3CollidersWhileDragging)
+            SetLevel3CollidersEnabled(true);
 
         dropRoutine = StartCoroutine(DestroyAfterPhysicsUpdate());
     }
@@ -497,6 +512,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         }
 
         RefreshTileCache();
+        CacheLevel3ChildColliders();
     }
 
     private void DestroyTilesWithAlphaZeroOnStart()
@@ -578,6 +594,61 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
             sr.sortingOrder = value;
         }
     }
+
+    // ---------- DISABLE DEPTH-3 CHILD COLLIDERS ----------
+
+    private void CacheLevel3ChildColliders()
+    {
+        var all = GetComponentsInChildren<Collider2D>(true);
+        var list = new List<Collider2D>(all.Length);
+
+        for (int i = 0; i < all.Length; i++)
+        {
+            var c = all[i];
+            if (c == null) continue;
+
+            // Non toccare il collider del dragger (serve per prendere la carta)
+            if (c == draggerCollider) continue;
+
+            int depth = GetDepthFromRoot(transform, c.transform);
+            if (depth == 3) // CardVariant(1) -> TileX(2) -> COMPONENT(3)
+                list.Add(c);
+        }
+
+        level3ChildColliders = list.ToArray();
+    }
+
+    private int GetDepthFromRoot(Transform root, Transform t)
+    {
+        int depth = 0;
+        Transform cur = t;
+
+        while (cur != null && cur != root)
+        {
+            depth++;
+            cur = cur.parent;
+        }
+
+        // Non discendente di root
+        if (cur == null) return -1;
+
+        return depth;
+    }
+
+    private void SetLevel3CollidersEnabled(bool enabled)
+    {
+        if (level3ChildColliders == null || level3ChildColliders.Length == 0)
+            CacheLevel3ChildColliders();
+
+        for (int i = 0; i < level3ChildColliders.Length; i++)
+        {
+            var c = level3ChildColliders[i];
+            if (c == null) continue;
+            c.enabled = enabled;
+        }
+    }
+
+    // ---------- GIZMOS ----------
 
     private void OnDrawGizmos()
     {
