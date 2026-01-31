@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Flipper : MonoBehaviour
 {
-    public KeyCode key = KeyCode.RightControl;
-    private Animator animator;
+    public int score = 50;
     public float impulseFactor;
     private Rigidbody2D body;
 
@@ -11,16 +10,6 @@ public class Flipper : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(key))
-        {
-            animator.SetTrigger("Flip");
-        }
     }
 
 
@@ -32,7 +21,7 @@ public class Flipper : MonoBehaviour
             Vector2 normalizedImpact = FeelTuning.CompensateForGravity(impulseFactor) * impact;
             collision.rigidbody.totalForce = Vector2.zero;
             collision.rigidbody.AddForce(-normalizedImpact, ForceMode2D.Impulse);
-            Scorer.Instance.ScorePoints(100, this);
+            Scorer.Instance.ScorePoints(score, this);
         }
     }
 }

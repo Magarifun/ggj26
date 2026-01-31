@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Bumper : MonoBehaviour
 {
+    public int score = 10;
     public float impulse;
 
     void Start()
@@ -23,7 +24,7 @@ public class Bumper : MonoBehaviour
             ContactPoint2D contact = collision.contacts[0];
             float normalizedImpulse = FeelTuning.CompensateForGravity(impulse);
             collision.rigidbody.AddForce(-normalizedImpulse * contact.normal, ForceMode2D.Impulse);
-            Scorer.Instance.ScorePoints(10, this);
+            Scorer.Instance.ScorePoints(score, this);
         }
     }
 }

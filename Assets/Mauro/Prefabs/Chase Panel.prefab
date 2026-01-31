@@ -155,8 +155,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Chase
   chasedProgressAtLevelStart: 0.5
-  initialDuration: 20
-  extraDurationPerLevel: 10
+  chaseInitialDelay: 10
+  initialChaseDuration: 20
+  extraDurationPerLevel: 1
   initialScoreGoal: 1000
   extraScoreGoalPerLevel: 1000
   chaser: {fileID: 6339968439827918653}

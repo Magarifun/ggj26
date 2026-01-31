@@ -44,7 +44,7 @@ public class Ball : MonoBehaviour
     {
         if (transform.position.y < birthY - 10f)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         if (exploding)
         {
