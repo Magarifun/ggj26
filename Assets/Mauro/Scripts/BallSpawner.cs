@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BallSpawner : MonoBehaviour
 {
     public GameObject ballPrefab;
     public float spawnInterval = 5.0f;
     public float impulse;
+    public UnityEvent OnSpawn;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,5 +24,7 @@ public class BallSpawner : MonoBehaviour
         GameObject ball = Instantiate(ballPrefab, transform.position, Quaternion.identity);
         ball.GetComponent<Rigidbody2D>().AddForce(Vector2.up * FeelTuning.CompensateForGravity(impulse), ForceMode2D.Impulse);
         PrepareToSpawn();
+        OnSpawn.Invoke();
+        
     }
 }
