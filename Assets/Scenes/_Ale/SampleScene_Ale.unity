@@ -8446,6 +8446,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1095989156}
     m_Modifications:
+    - target: {fileID: 1304994548320076974, guid: d3530451db3444766adf1389fbf8a0e1, type: 3}
+      propertyPath: snapAreaMax.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304994548320076974, guid: d3530451db3444766adf1389fbf8a0e1, type: 3}
+      propertyPath: snapAreaMax.y
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304994548320076974, guid: d3530451db3444766adf1389fbf8a0e1, type: 3}
+      propertyPath: snapAreaMin.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304994548320076974, guid: d3530451db3444766adf1389fbf8a0e1, type: 3}
+      propertyPath: snapAreaMin.y
+      value: -6
+      objectReference: {fileID: 0}
     - target: {fileID: 2250028155270245206, guid: d3530451db3444766adf1389fbf8a0e1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.38400006
