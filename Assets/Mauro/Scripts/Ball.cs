@@ -12,9 +12,11 @@ public class Ball : MonoBehaviour
     private float explosionProgress = 0f;
     private Vector3 area = Vector3.zero;
     private float timeSinceInArea;
+    private float birthY;
 
     void Start()
     {
+        birthY = transform.position.y;
         body = GetComponent<Rigidbody2D>();
         sphere = transform.Find("Sphere").gameObject;
         rotationFactor = 360.0f / (Mathf.PI * body.transform.localScale.x);
@@ -40,6 +42,10 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
+        if (transform.position.y < birthY - 10f)
+        {
+            Destroy(this);
+        }
         if (exploding)
         {
             explosionProgress += Time.deltaTime / explosionDuration;
