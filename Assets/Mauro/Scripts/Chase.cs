@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class Chase : MonoBehaviour
 {
+    public Vector3 initialPosition = new(-3.83f, 5.01f, 0);
     public float chasedProgressAtLevelStart;
     public float chaseInitialDelay;
     public float initialChaseDuration;
@@ -25,6 +26,7 @@ public class Chase : MonoBehaviour
 
     void Start()
     {
+        transform.position = initialPosition;
         if (instance != null)
         {
             Destroy(this);
