@@ -23,7 +23,7 @@ public class Score : MonoBehaviour
 
     void Update()
     {
-        Vector3 destination = Camera.main.ScreenToWorldPoint(Chase.Instance.chased.transform.position);
+        Vector3 destination = Chase.Instance.chased.transform.position;
         transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
         if (Vector3.Distance(transform.position, destination) < 0.1f)
         {
