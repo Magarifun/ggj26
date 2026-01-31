@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ public class CardPoolManager : MonoBehaviour
         public int availableCount;
         public string availableCopiesString; // "1,3,5"
     }
+
+    [Header("Spawn Timing")]
+    [SerializeField] private float spawnDelay = 0.25f;
 
     [Header("Prefabs Pool")]
     public List<CardPrefabData> prefabs = new();
@@ -58,6 +62,22 @@ public class CardPoolManager : MonoBehaviour
         if (!liveInspectorDebug) return;
         UpdateInspectorDebug();
     }
+
+    // =========================================================
+    // DELAYED SPAWN
+    // =========================================================
+
+    private IEnumerator SpawnCardInSlotDelayed(int slotIndex)
+    {
+        if (spawnDelay > 0f)
+            yield return new WaitForSeconds(spawnDelay);
+
+        TrySpawnInSlot(slotIndex);
+    }
+
+    // =========================================================
+    // POOLS
+    // =========================================================
 
     private void BuildPools()
     {
@@ -139,7 +159,7 @@ public class CardPoolManager : MonoBehaviour
         Transform slot = handSlots[slotIndex];
 
         GameObject cardGO = Instantiate(prefab, slot.position, slot.rotation);
-        cardGO.SetActive(true);
+        cardGO.SetActive(true); // IMPORTANT: visibilità attiva
         cardGO.transform.SetParent(handRoot, true);
 
         // rename
@@ -155,6 +175,11 @@ public class CardPoolManager : MonoBehaviour
         // lifecycle
         var life = cardGO.GetComponent<CardLifecycle>();
         if (life == null) life = cardGO.AddComponent<CardLifecycle>();
+
+        // safety: evita doppie subscription se prefab già aveva component
+        life.OnPlaced -= HandlePlaced;
+        life.OnLostTileAfterPlaced -= HandleLostTileAfterPlaced;
+
         life.OnPlaced += HandlePlaced;
         life.OnLostTileAfterPlaced += HandleLostTileAfterPlaced;
 
@@ -169,13 +194,19 @@ public class CardPoolManager : MonoBehaviour
         UpdateInspectorDebug();
     }
 
+    // =========================================================
+    // EVENTS
+    // =========================================================
+
     private void HandlePlaced(CardLifecycle life)
     {
         var slotRef = life.GetComponent<CardHandSlotRef>();
         int slotIndex = slotRef != null ? slotRef.slotIndex : -1;
 
-        if (slotIndex >= 0)
-            TrySpawnInSlot(slotIndex);
+        if (slotIndex < 0) return;
+
+        // 👇 QUI: respawn con DELAY
+        StartCoroutine(SpawnCardInSlotDelayed(slotIndex));
     }
 
     private void HandleLostTileAfterPlaced(CardLifecycle life)
@@ -188,6 +219,10 @@ public class CardPoolManager : MonoBehaviour
 
         ReturnCopyToPool(inst.cardId, inst.copyNumber);
     }
+
+    // =========================================================
+    // RETURN TO POOL
+    // =========================================================
 
     private void ReturnCopyToPool(string cardId, int copyNumber)
     {
@@ -216,6 +251,10 @@ public class CardPoolManager : MonoBehaviour
         RefreshGeneratableIds();
         UpdateInspectorDebug();
     }
+
+    // =========================================================
+    // DEBUG / HELPERS
+    // =========================================================
 
     private void RefreshGeneratableIds()
     {
