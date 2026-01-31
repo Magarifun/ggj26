@@ -6,7 +6,7 @@ public class Exhausting : MonoBehaviour
     public float exhaustionThreshold = 0.5f;
     public float exhaustionTime = 5.0f;
     public float exhaustionPerHit = 0.2f;
-    public float recoveryRate = 1.0f;
+    public float recoveryRate = 0.1f;
     private float exhaustion = 0;
     private bool overheated = false;
     private float overheatedTime = 0;
