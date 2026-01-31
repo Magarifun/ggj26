@@ -1,0 +1,13 @@
+squarcio.png
+size:587,275
+filter:Linear,Linear
+pma:true
+squarcio1
+bounds:2,83,83,583
+rotate:90
+squarcio2
+bounds:2,2,79,568
+rotate:90
+squarcio3
+bounds:2,168,105,581
+rotate:90
