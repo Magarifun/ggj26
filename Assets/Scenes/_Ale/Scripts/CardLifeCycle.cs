@@ -6,13 +6,7 @@ public class CardLifecycle : MonoBehaviour
     public System.Action<CardLifecycle> OnLostTileAfterPlaced;
 
     private bool placed;
-    private bool releasedOnce;
-    private int initialTileCount = -1;
-
-    private void Start()
-    {
-        initialTileCount = GetTileCount();
-    }
+    private bool lostTriggered;
 
     public void MarkPlaced()
     {
@@ -21,22 +15,15 @@ public class CardLifecycle : MonoBehaviour
         OnPlaced?.Invoke(this);
     }
 
-    // Chiamalo DOPO la distruzione tile (dopo drop)
-    public void CheckIfLostTiles()
+    /// <summary>
+    /// Chiamalo quando una tile di questa card viene distrutta da un'altra card.
+    /// </summary>
+    public void NotifyLostTile()
     {
-        if (!placed) return;
-        if (releasedOnce) return;
+        if (!placed) return;        // deve essere già piazzata
+        if (lostTriggered) return;  // una sola volta
 
-        int now = GetTileCount();
-        if (now < initialTileCount)
-        {
-            releasedOnce = true; // ✅ rilascia una sola volta
-            OnLostTileAfterPlaced?.Invoke(this);
-        }
-    }
-
-    private int GetTileCount()
-    {
-        return GetComponentsInChildren<SpriteRenderer>(true).Length;
+        lostTriggered = true;
+        OnLostTileAfterPlaced?.Invoke(this);
     }
 }

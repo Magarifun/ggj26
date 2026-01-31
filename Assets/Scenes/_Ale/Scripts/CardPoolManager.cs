@@ -9,6 +9,15 @@ public class CardPoolManager : MonoBehaviour
         public GameObject prefab;
     }
 
+    [System.Serializable]
+    public class PoolDebugEntry
+    {
+        public string cardId;
+        public int maxCopies;
+        public int availableCount;
+        public string availableCopiesString; // "1,3,5"
+    }
+
     [Header("Prefabs Pool")]
     public List<CardPrefabData> prefabs = new();
 
@@ -17,35 +26,45 @@ public class CardPoolManager : MonoBehaviour
     public Transform[] handSlots;
     public Transform handRoot;
 
-    [Header("Exhaustion")]
-    [SerializeField] private bool stopSpawningWhenEmpty = true;
+    [Header("Live Debug (Inspector)")]
+    public bool liveInspectorDebug = true;
 
-    private bool poolExhausted = false;
+    [SerializeField] private List<PoolDebugEntry> poolDebug = new();
+    [SerializeField] private string lastPoolEvent = "";
 
-    private class CardIdState
-    {
-        public GameObject prefab;
-        public int maxConcurrent;
-        public bool[] inUse;   // copy 1..max
-        public int aliveCount;
-    }
+    // cardId -> prefab
+    private readonly Dictionary<string, GameObject> prefabById = new();
 
-    private readonly Dictionary<string, CardIdState> states = new();
+    // cardId -> maxCopies (da CardPoolEntry)
+    private readonly Dictionary<string, int> maxCopiesById = new();
+
+    // cardId -> lista copie disponibili
+    private readonly Dictionary<string, List<int>> availableCopiesById = new();
+
+    // lista id generabili
     private readonly List<string> generatableIds = new();
 
     private void Start()
     {
         if (handRoot == null) handRoot = transform;
 
-        BuildStates();
+        BuildPools();
         FillHand();
+        UpdateInspectorDebug();
     }
 
-    private void BuildStates()
+    private void Update()
     {
-        states.Clear();
+        if (!liveInspectorDebug) return;
+        UpdateInspectorDebug();
+    }
+
+    private void BuildPools()
+    {
+        prefabById.Clear();
+        maxCopiesById.Clear();
+        availableCopiesById.Clear();
         generatableIds.Clear();
-        poolExhausted = false;
 
         foreach (var p in prefabs)
         {
@@ -59,22 +78,26 @@ public class CardPoolManager : MonoBehaviour
             }
 
             string id = entry.cardId;
-            int max = Mathf.Max(0, entry.maxConcurrentCopies);
 
-            if (states.ContainsKey(id))
+            if (prefabById.ContainsKey(id))
             {
-                Debug.LogWarning($"[CardPoolManager] cardId duplicato '{id}'. Ignoro duplicato.");
+                Debug.LogWarning($"[CardPoolManager] cardId duplicato '{id}', ignoro duplicato.");
                 continue;
             }
 
-            states[id] = new CardIdState
-            {
-                prefab = p.prefab,
-                maxConcurrent = max,
-                inUse = new bool[max],
-                aliveCount = 0
-            };
+            int max = Mathf.Max(0, entry.maxCopies);
+
+            prefabById[id] = p.prefab;
+            maxCopiesById[id] = max;
+
+            var list = new List<int>(max);
+            for (int i = 1; i <= max; i++)
+                list.Add(i);
+
+            availableCopiesById[id] = list;
         }
+
+        RefreshGeneratableIds();
     }
 
     private void FillHand()
@@ -86,78 +109,68 @@ public class CardPoolManager : MonoBehaviour
 
     private void TrySpawnInSlot(int slotIndex)
     {
-        if (stopSpawningWhenEmpty && poolExhausted) return;
-
         if (handSlots == null || slotIndex < 0 || slotIndex >= handSlots.Length) return;
 
-        string id = PickRandomGeneratableId();
-        if (string.IsNullOrEmpty(id))
+        RefreshGeneratableIds();
+
+        if (generatableIds.Count == 0)
         {
-            Debug.Log("[CardPoolManager] Non esistono più carte generabili (tutte al massimo).");
-
-            if (stopSpawningWhenEmpty)
-                poolExhausted = true; // ✅ STOP definitivo
-
+            lastPoolEvent = "POOL EMPTY -> no more spawnable cards";
+            Debug.Log("[CardPoolManager] Non esistono più carte generabili (pool vuoto).");
             return;
         }
 
-        CardIdState st = states[id];
-        if (st.maxConcurrent <= 0)
-        {
-            // non spawnabile, prova a ricalcolare una volta
-            RefreshGeneratableIds();
-            return;
-        }
+        string id = generatableIds[Random.Range(0, generatableIds.Count)];
+        List<int> available = availableCopiesById[id];
 
-        int copyNumber = GetFirstFreeCopyNumber(st);
-        if (copyNumber < 1)
+        if (available == null || available.Count == 0)
         {
             RefreshGeneratableIds();
-            Debug.Log("[CardPoolManager] Non esistono più carte generabili (tutte al massimo).");
-
-            if (stopSpawningWhenEmpty)
-                poolExhausted = true; // ✅ STOP definitivo
-
             return;
         }
 
+        int pickIndex = Random.Range(0, available.Count);
+        int copyNumber = available[pickIndex];
+
+        // rimuovi dal pool
+        available.RemoveAt(pickIndex);
+
+        GameObject prefab = prefabById[id];
         Transform slot = handSlots[slotIndex];
 
-        GameObject cardGO = Instantiate(st.prefab, slot.position, slot.rotation);
+        GameObject cardGO = Instantiate(prefab, slot.position, slot.rotation);
         cardGO.SetActive(true);
         cardGO.transform.SetParent(handRoot, true);
 
-        // usa copia
-        st.inUse[copyNumber - 1] = true;
-        st.aliveCount++;
-
-        // rename: cardId+numero
+        // rename
         cardGO.name = $"{id}{copyNumber}";
 
-        // CardInstance
+        // instance info
         var inst = cardGO.GetComponent<CardInstance>();
         if (inst == null) inst = cardGO.AddComponent<CardInstance>();
-        inst.Init(this, id, copyNumber);
+        inst.cardId = id;
+        inst.copyNumber = copyNumber;
+        inst.returnedToPoolOnce = false;
 
-        // Lifecycle
+        // lifecycle
         var life = cardGO.GetComponent<CardLifecycle>();
         if (life == null) life = cardGO.AddComponent<CardLifecycle>();
-
         life.OnPlaced += HandlePlaced;
         life.OnLostTileAfterPlaced += HandleLostTileAfterPlaced;
 
-        // Slot ref
+        // slot ref
         var slotRef = cardGO.GetComponent<CardHandSlotRef>();
         if (slotRef == null) slotRef = cardGO.AddComponent<CardHandSlotRef>();
         slotRef.slotIndex = slotIndex;
 
+        lastPoolEvent = $"SPAWN -> {id}{copyNumber} (slot {slotIndex})";
+
         RefreshGeneratableIds();
+        UpdateInspectorDebug();
     }
 
     private void HandlePlaced(CardLifecycle life)
     {
-        if (stopSpawningWhenEmpty && poolExhausted) return;
-
         var slotRef = life.GetComponent<CardHandSlotRef>();
         int slotIndex = slotRef != null ? slotRef.slotIndex : -1;
 
@@ -168,67 +181,88 @@ public class CardPoolManager : MonoBehaviour
     private void HandleLostTileAfterPlaced(CardLifecycle life)
     {
         var inst = life.GetComponent<CardInstance>();
-        if (inst == null || string.IsNullOrEmpty(inst.cardId)) return;
+        if (inst == null) return;
 
-        ReleaseCopy(inst.cardId, inst.copyNumber);
+        if (inst.returnedToPoolOnce) return;
+        inst.returnedToPoolOnce = true;
 
-        // evita doppio rilascio se poi distruggi la card
-        inst.MarkReleasedToPool();
+        ReturnCopyToPool(inst.cardId, inst.copyNumber);
+    }
 
-        // Se il pool era esaurito, ora potrebbe tornare generabile:
-        // Se invece vuoi che rimanga "STOP per sempre", commenta le 2 righe sotto.
-        poolExhausted = false;
+    private void ReturnCopyToPool(string cardId, int copyNumber)
+    {
+        if (string.IsNullOrEmpty(cardId)) return;
+
+        if (!availableCopiesById.ContainsKey(cardId)) return;
+        if (!maxCopiesById.ContainsKey(cardId)) return;
+
+        int max = maxCopiesById[cardId];
+
+        if (copyNumber < 1 || copyNumber > max) return;
+
+        var list = availableCopiesById[cardId];
+
+        if (list.Contains(copyNumber))
+            return;
+
+        if (list.Count >= max)
+            return;
+
+        list.Add(copyNumber);
+
+        lastPoolEvent = $"RETURN -> {cardId}{copyNumber} back to pool";
+        Debug.Log($"[CardPoolManager] Copia restituita al pool: {cardId}{copyNumber}");
+
         RefreshGeneratableIds();
-    }
-
-    public void ReleaseCopy(string cardId, int copyNumber)
-    {
-        if (!states.TryGetValue(cardId, out var st)) return;
-        if (copyNumber < 1 || copyNumber > st.maxConcurrent) return;
-
-        int idx = copyNumber - 1;
-        if (!st.inUse[idx]) return;
-
-        st.inUse[idx] = false;
-        st.aliveCount = Mathf.Max(0, st.aliveCount - 1);
-    }
-
-    private int GetFirstFreeCopyNumber(CardIdState st)
-    {
-        for (int i = 0; i < st.inUse.Length; i++)
-            if (!st.inUse[i]) return i + 1;
-        return -1;
-    }
-
-    private string PickRandomGeneratableId()
-    {
-        RefreshGeneratableIds();
-        if (generatableIds.Count == 0) return null;
-        return generatableIds[Random.Range(0, generatableIds.Count)];
+        UpdateInspectorDebug();
     }
 
     private void RefreshGeneratableIds()
     {
         generatableIds.Clear();
 
-        foreach (var kv in states)
+        foreach (var kv in availableCopiesById)
         {
-            var st = kv.Value;
-            if (st.maxConcurrent <= 0) continue;
-
-            if (st.aliveCount < st.maxConcurrent)
+            if (kv.Value != null && kv.Value.Count > 0)
                 generatableIds.Add(kv.Key);
         }
     }
 
-    [ContextMenu("Debug: Print Pool State")]
-    private void DebugPrint()
+    private void UpdateInspectorDebug()
     {
-        Debug.Log($"[CardPoolManager] exhausted={poolExhausted}");
-        foreach (var kv in states)
+        poolDebug.Clear();
+
+        foreach (var kv in availableCopiesById)
         {
-            var st = kv.Value;
-            Debug.Log($"[Pool] {kv.Key}: alive={st.aliveCount}/{st.maxConcurrent}");
+            string id = kv.Key;
+            List<int> list = kv.Value;
+
+            int max = maxCopiesById.ContainsKey(id) ? maxCopiesById[id] : 0;
+
+            PoolDebugEntry e = new PoolDebugEntry();
+            e.cardId = id;
+            e.maxCopies = max;
+            e.availableCount = list != null ? list.Count : 0;
+
+            if (list == null || list.Count == 0)
+                e.availableCopiesString = "EMPTY";
+            else
+                e.availableCopiesString = string.Join(",", list);
+
+            poolDebug.Add(e);
         }
+    }
+
+    [ContextMenu("Debug: Print Pools (Console)")]
+    private void DebugPrintConsole()
+    {
+        foreach (var kv in availableCopiesById)
+        {
+            string id = kv.Key;
+            string copies = kv.Value.Count > 0 ? string.Join(",", kv.Value) : "EMPTY";
+            Debug.Log($"[Pool] {id} -> [{copies}] (max={maxCopiesById[id]})");
+        }
+
+        Debug.Log($"[Pool] last event: {lastPoolEvent}");
     }
 }
