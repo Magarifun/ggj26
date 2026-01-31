@@ -48,7 +48,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     [SerializeField] private bool lockAfterPlaced = true;
 
     [Header("Disable Level-3 Colliders While Dragging")]
-    [Tooltip("Disabilita i Collider2D che si trovano a profondità 3 sotto la Card: Card(0) > CardVariant(1) > TileX(2) > COMPONENT(3)")]
+    [Tooltip("Disabilita i Collider2D a profondità 3 sotto la Card: Card(0) > CardVariant(1) > TileX(2) > COMPONENT(3)")]
     [SerializeField] private bool disableLevel3CollidersWhileDragging = true;
 
     [Header("Debug")]
@@ -79,7 +79,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     private Vector3 offset;
     private float fixedZ;
 
-    private bool isPlaced = false;
+    public bool isPlaced = false;
     private bool wallEngaged = false;
 
     private ContactFilter2D tileFilter;
@@ -93,6 +93,10 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     private Collider2D[] level3ChildColliders;
 
     private Coroutine dropRoutine;
+
+    // --- EVENTS STATE ---
+    private Collider2D hoveredTile;
+    private BoardSlot2D lastSnappedSlot;
 
     private void Awake()
     {
@@ -144,6 +148,12 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         Vector2 mouseScreen = Mouse.current.position.ReadValue();
         Vector2 mouseWorld = cam.ScreenToWorldPoint(mouseScreen);
 
+        // Hover events: solo quando non stai trascinando
+        if (!isDragging)
+            UpdateHover(mouseWorld);
+        else
+            ClearHoverIfAny();
+
         if (Mouse.current.leftButton.wasPressedThisFrame)
             TryBeginDrag(mouseWorld);
 
@@ -187,6 +197,12 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         // Disabilita collider depth 3 (Card > CardVariant > TileX > COMPONENT) mentre trascini
         if (disableLevel3CollidersWhileDragging)
             SetLevel3CollidersEnabled(false);
+
+        // Hover off mentre trascini
+        ClearHoverIfAny();
+
+        // EVENT: grabbed
+        CardTileEventManager.I?.RaiseGrabbed(this);
     }
 
     private void Drag(Vector2 mouseWorld)
@@ -232,6 +248,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     private void EndDrag()
     {
         isDragging = false;
+        lastSnappedSlot = null;
 
         if (useSnapLimits && hardClampToLimits)
             transform.position = ClampCardPositionToSnapArea(transform.position);
@@ -250,6 +267,9 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
                 if (draggerCollider != null)
                     draggerCollider.enabled = false;
             }
+
+            // EVENT: placed
+            CardTileEventManager.I?.RaisePlaced(this, lastSnappedSlot);
         }
 
         // Riabilita collider depth 3 dopo il drag
@@ -269,6 +289,54 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         SetSortingOrder(resetSortingOrder);
 
         dropRoutine = null;
+    }
+
+    // ---------- HOVER EVENTS ----------
+
+    private void UpdateHover(Vector2 mouseWorld)
+    {
+        // Hover solo prima di essere piazzata
+        if (lockAfterPlaced && isPlaced)
+        {
+            ClearHoverIfAny();
+            return;
+        }
+
+        Collider2D hit = Physics2D.OverlapPoint(mouseWorld, tileLayer);
+
+        // Se includeTriggers = false, ignoro trigger
+        if (hit != null && !includeTriggers && hit.isTrigger)
+            hit = null;
+
+        // Deve essere un tile della MIA card
+        if (hit != null && !hit.transform.IsChildOf(transform))
+            hit = null;
+
+        // Ignora tile invisibili
+        if (hit != null)
+        {
+            var sr = hit.GetComponent<SpriteRenderer>();
+            if (sr != null && sr.color.a <= 0f)
+                hit = null;
+        }
+
+        if (hit == hoveredTile) return;
+
+        if (hoveredTile != null)
+            CardTileEventManager.I?.RaiseHoverExit(this, hoveredTile);
+
+        hoveredTile = hit;
+
+        if (hoveredTile != null)
+            CardTileEventManager.I?.RaiseHoverEnter(this, hoveredTile);
+    }
+
+    private void ClearHoverIfAny()
+    {
+        if (hoveredTile == null) return;
+
+        CardTileEventManager.I?.RaiseHoverExit(this, hoveredTile);
+        hoveredTile = null;
     }
 
     // ---------- LIMITS ----------
@@ -428,6 +496,8 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 
         BoardSlot2D slot = GetClosestSlot(transform.position, snapDistance);
         if (slot == null) return false;
+
+        lastSnappedSlot = slot;
 
         MoveCardToSlotPosition(slot.transform.position);
 
@@ -629,9 +699,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
             cur = cur.parent;
         }
 
-        // Non discendente di root
-        if (cur == null) return -1;
-
+        if (cur == null) return -1; // non discendente di root
         return depth;
     }
 
