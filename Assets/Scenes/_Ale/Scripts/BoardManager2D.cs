@@ -16,7 +16,8 @@ public class BoardManager2D : MonoBehaviour
 
     private void Start()
     {
-        GenerateSlots();
+        if (Slots.Count == 0 && slotPrefab != null)
+            GenerateSlots();
     }
 
     [ContextMenu("Generate Slots")]
@@ -34,6 +35,7 @@ public class BoardManager2D : MonoBehaviour
                 Vector3 pos = transform.position + new Vector3(x * spacingX, -y * spacingY, 0f);
                 BoardSlot2D slot = Instantiate(slotPrefab, pos, Quaternion.identity, transform);
                 slot.name = $"Slot_{x}_{y}";
+                slot.occupied = false;
                 Slots.Add(slot);
             }
         }
@@ -46,7 +48,7 @@ public class BoardManager2D : MonoBehaviour
 
         foreach (var slot in Slots)
         {
-            if (slot.occupied) continue;
+            if (slot == null || slot.occupied) continue;
 
             float d = Vector2.Distance(position, slot.transform.position);
             if (d < bestDist && d <= maxDistance)

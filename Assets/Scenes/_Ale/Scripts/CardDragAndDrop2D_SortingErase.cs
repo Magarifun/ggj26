@@ -7,6 +7,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform cardDragger;     // child con Collider2D
+    [SerializeField] private Transform snapAnchor;      // child "SnapAnchor" nel prefab
     [SerializeField] private Camera cam;
     [SerializeField] private LayerMask draggableLayer;
 
@@ -19,16 +20,16 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     [SerializeField] private float dragSnapDistance = 2.5f;
 
     [Header("Tiles Overlap (2D)")]
-    [SerializeField] private LayerMask tileLayer;       // layer delle tile (es: Tile2D)
+    [SerializeField] private LayerMask tileLayer;
     [SerializeField] private bool includeTriggers = true;
 
     [Header("Sorting")]
-    [SerializeField] private int dragSortingDelta = 1;  // +1 durante drag
-    [SerializeField] private int resetSortingOrder = 0; // torna a 0 dopo drop
+    [SerializeField] private int dragSortingDelta = 1;
+    [SerializeField] private int resetSortingOrder = 0;
 
-    [Header("Overlap Precision")]
-    [Tooltip("Più alto = elimina meno (più strict). 0.001 è un buon default.")]
-    [SerializeField] private float overlapEpsilon = 0.001f;
+    // [Header("Overlap Precision")]
+    // [Tooltip("Più alto = elimina meno (più strict). 0.001 è un buon default.")]
+    // [SerializeField] private float overlapEpsilon = 0.001f;
 
     [Header("Startup Cleanup")]
     [SerializeField] private bool destroyTilesWithAlphaZeroOnStart = true;
@@ -57,6 +58,12 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         {
             Transform found = transform.Find("CardDragger");
             if (found != null) cardDragger = found;
+        }
+
+        if (snapAnchor == null)
+        {
+            Transform found = transform.Find("SnapAnchor");
+            if (found != null) snapAnchor = found;
         }
 
         draggerCollider = cardDragger != null ? cardDragger.GetComponent<Collider2D>() : null;
@@ -115,22 +122,19 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     {
         isDragging = true;
 
-        // stop eventuale routine di drop precedente
         if (dropRoutine != null)
         {
             StopCoroutine(dropRoutine);
             dropRoutine = null;
         }
 
-        // libera slot corrente (solo questa card)
         ReleaseCurrentSlot();
 
-        // offset drag
+        // offset (usiamo il parent pivot per il drag "raw", poi lo snap corregge)
         Vector3 mouseWorld3D = new Vector3(mouseWorld.x, mouseWorld.y, fixedZ);
         offset = transform.position - mouseWorld3D;
         offset.z = 0f;
 
-        // porta davanti
         AddSortingOrder(dragSortingDelta);
     }
 
@@ -146,12 +150,12 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
             return;
         }
 
-        // SNAP LIVE: anche su slot occupati
+        // snap live anche su slot occupati
         BoardSlot2D slot = GetClosestSlot(target, dragSnapDistance);
-
         if (slot != null)
         {
-            transform.position = new Vector3(slot.transform.position.x, slot.transform.position.y, fixedZ);
+            MoveCardToSlotPosition(slot.transform.position);
+            Physics2D.SyncTransforms(); // assicura update collider
         }
         else
         {
@@ -163,31 +167,25 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     {
         isDragging = false;
 
-        // snap finale: preferisci libero
         SnapThisCardPreferFree();
+        Physics2D.SyncTransforms(); // importantissimo dopo snap prima della coroutine
 
-        // distruzione dopo update fisica
         dropRoutine = StartCoroutine(DestroyAfterPhysicsUpdate());
     }
 
-   private IEnumerator DestroyAfterPhysicsUpdate()
-{
-    yield return new WaitForFixedUpdate();
+    private IEnumerator DestroyAfterPhysicsUpdate()
+    {
+        // aspetta update fisico (ottimo se usi rigidbody/trigger ecc.)
+        yield return new WaitForFixedUpdate();
 
-    DestroyTilesStillUnderMe();
+        DestroyTilesStillUnderMe();
 
-    // 🔥 notifica: card piazzata
-    GetComponent<CardLifeCycle>()?.MarkPlaced();
+        SetSortingOrder(resetSortingOrder);
 
-    // 🔥 notifica: se ha perso tile, rientra nel pool
-    GetComponent<CardLifeCycle>()?.CheckIfLostTiles();
+        dropRoutine = null;
+    }
 
-    SetSortingOrder(resetSortingOrder);
-
-    dropRoutine = null;
-}
-
-    // ---------- SNAP LOGIC ----------
+    // ---------- SNAP ----------
 
     private BoardSlot2D GetClosestSlot(Vector3 position, float maxDistance)
     {
@@ -215,27 +213,42 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     {
         if (board == null) return;
 
-        // prima prova libero
+        // 1) prova slot libero vicino
         BoardSlot2D free = board.GetClosestFreeSlot(transform.position, snapDistance);
         if (free != null)
         {
-            transform.position = new Vector3(free.transform.position.x, free.transform.position.y, fixedZ);
+            MoveCardToSlotPosition(free.transform.position);
+
             free.occupied = true;
             currentSlot = free;
             return;
         }
 
-        // se non libero, resta dove sei (ma già snappato live)
-        // opzionale: potresti occupare comunque lo slot più vicino
+        // 2) altrimenti resta su slot vicino (anche occupato)
         BoardSlot2D any = GetClosestSlot(transform.position, snapDistance);
         if (any != null)
         {
-            transform.position = new Vector3(any.transform.position.x, any.transform.position.y, fixedZ);
-            // NON setto occupied perché era già occupato da qualcun altro
+            MoveCardToSlotPosition(any.transform.position);
+            // non setto occupied perché era già occupato da altri
         }
     }
 
-    // ---------- DESTROY LOGIC ----------
+    private void MoveCardToSlotPosition(Vector3 slotPosition)
+    {
+        Vector3 desired = new Vector3(slotPosition.x, slotPosition.y, fixedZ);
+
+        if (snapAnchor == null)
+        {
+            transform.position = desired;
+            return;
+        }
+
+        // allinea lo SnapAnchor allo slot (risolve offset/pivot)
+        Vector3 delta = desired - snapAnchor.position;
+        transform.position += new Vector3(delta.x, delta.y, 0f);
+    }
+
+    // ---------- DESTROY ----------
 
     private void DestroyTilesStillUnderMe()
     {
@@ -275,8 +288,8 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 
                 // overlap reale (evita adiacenti)
                 ColliderDistance2D d = myTile.Distance(hit);
-                if (!d.isOverlapped || d.distance > -overlapEpsilon)
-                    continue;
+                // if (!d.isOverlapped || d.distance > -overlapEpsilon)
+                //     continue;
 
                 toDestroy.Add(hit);
             }
@@ -324,7 +337,6 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     private void ReleaseCurrentSlot()
     {
         if (currentSlot == null) return;
-
         currentSlot.occupied = false;
         currentSlot = null;
     }
