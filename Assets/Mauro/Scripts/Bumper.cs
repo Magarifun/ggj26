@@ -20,7 +20,7 @@ public class Bumper : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             ContactPoint2D contact = collision.contacts[0];
-            float normalizedImpulse = impulse * Mathf.Sqrt(Mathf.Abs(Physics2D.gravity.y));
+            float normalizedImpulse = FeelTuning.CompensateForGravity(impulse);
             collision.rigidbody.AddForce(-normalizedImpulse * contact.normal, ForceMode2D.Impulse);
             Scorer.Instance.ScorePoints(10, this);
         }

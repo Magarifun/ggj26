@@ -20,4 +20,9 @@ public class FeelTuning : MonoBehaviour
     {
         Physics2D.gravity = new Vector3(0, -Mathf.Abs(gravity), 0);
     }
+
+    public static float CompensateForGravity(float baseValue)
+    {
+        return baseValue * Mathf.Sqrt(Mathf.Abs(Physics2D.gravity.y));
+    }
 }
