@@ -12,6 +12,7 @@ public class WolfPaw : MonoBehaviour
     private List<GameObject> cards = new();
     private float leftmostCardX = 0f;
     private float rightmostCardX = 0f;
+    private Vector3 downVector;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,6 +45,7 @@ public class WolfPaw : MonoBehaviour
         }
         float randomX = Random.Range(leftmostCardX, rightmostCardX);
         transform.position = new Vector3(randomX, transform.position.y, transform.position.z);
+        downVector=transform.position;
         Invoke(nameof(End), duration);
     }
 
@@ -55,12 +57,13 @@ public class WolfPaw : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(speed * Time.deltaTime * Vector3.down);
+        downVector+=(speed * Time.deltaTime * Vector3.down);
+        //transform.Translate(speed * Time.deltaTime * Vector3.down);
         foreach (GameObject card in cards)
         {
             if (card != null && !card.IsDestroyed())
             {
-                float distance = Vector3.Distance(transform.position, card.transform.position);
+                float distance = Vector3.Distance(downVector, card.transform.position);
                 if (distance < range)
                 {
                     Destroy(card);
