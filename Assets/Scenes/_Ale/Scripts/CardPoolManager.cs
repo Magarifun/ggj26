@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CardPoolManager : MonoBehaviour
 {
@@ -35,6 +36,9 @@ public class CardPoolManager : MonoBehaviour
 
     [SerializeField] private List<PoolDebugEntry> poolDebug = new();
     [SerializeField] private string lastPoolEvent = "";
+
+    [Header("Events (Inspector)")]
+    public UnityEvent OnSpawnTile; // ✅ evento semplice, trascinabile in inspector
 
     // cardId -> prefab
     private readonly Dictionary<string, GameObject> prefabById = new();
@@ -190,6 +194,9 @@ public class CardPoolManager : MonoBehaviour
 
         lastPoolEvent = $"SPAWN -> {id}{copyNumber} (slot {slotIndex})";
 
+        // ✅ EVENTO INSPECTOR (senza parametri)
+        OnSpawnTile?.Invoke();
+
         RefreshGeneratableIds();
         UpdateInspectorDebug();
     }
@@ -205,7 +212,7 @@ public class CardPoolManager : MonoBehaviour
 
         if (slotIndex < 0) return;
 
-        // 👇 QUI: respawn con DELAY
+        // respawn con DELAY
         StartCoroutine(SpawnCardInSlotDelayed(slotIndex));
     }
 
