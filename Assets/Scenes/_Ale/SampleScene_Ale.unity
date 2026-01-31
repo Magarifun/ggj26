@@ -3264,8 +3264,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1126632547}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.82, y: -4.99, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.07585374, w: 0.99711895}
+  m_LocalPosition: {x: 9.96, y: -6.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3312,7 +3312,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 177.71
   m_PointLightOuterAngle: 298.5
   m_PointLightInnerRadius: 0.3
-  m_PointLightOuterRadius: 2.78
+  m_PointLightOuterRadius: 9.22947
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -5432,7 +5432,7 @@ GameObject:
   - component: {fileID: 1815325551}
   - component: {fileID: 1815325550}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6696,6 +6696,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 330585545}
     - target: {fileID: 7928992977083244427, guid: 27bce047459454ae2a1eb65c0b603842, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928992977083244427, guid: 27bce047459454ae2a1eb65c0b603842, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
       objectReference: {fileID: 0}
@@ -6830,6 +6834,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 330585545}
     - target: {fileID: 2080017999426002809, guid: 3e37da6cc75484c528d3b33eb94bb523, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080017999426002809, guid: 3e37da6cc75484c528d3b33eb94bb523, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
       objectReference: {fileID: 0}
@@ -6946,6 +6954,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 4204776902654338156, guid: 87722ab166ade4c70951ecc37e0615c1, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4204776902654338156, guid: 87722ab166ade4c70951ecc37e0615c1, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
@@ -7257,6 +7269,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 330585545}
     - target: {fileID: 8757692042460470935, guid: 05172aadfbce54e5396ce4d77a473156, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8757692042460470935, guid: 05172aadfbce54e5396ce4d77a473156, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
       objectReference: {fileID: 0}
@@ -7301,6 +7317,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 2099022960355450013, guid: 5edb5bf4af5f848bfb65c8c152b7c246, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2099022960355450013, guid: 5edb5bf4af5f848bfb65c8c152b7c246, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
@@ -7467,6 +7487,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 330585545}
     - target: {fileID: 5211392875750846752, guid: caaa4974967e54a6e823e8466d920c38, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5211392875750846752, guid: caaa4974967e54a6e823e8466d920c38, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
       objectReference: {fileID: 0}
@@ -7599,6 +7623,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 3644433190357164442, guid: b20a46119fffd4f86a8ec02353b731c9, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3644433190357164442, guid: b20a46119fffd4f86a8ec02353b731c9, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
@@ -7997,6 +8025,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 330585545}
     - target: {fileID: 6212330861020999415, guid: f0fee0df0c46a4c6e88e42366309712c, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6212330861020999415, guid: f0fee0df0c46a4c6e88e42366309712c, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
       objectReference: {fileID: 0}
@@ -8073,6 +8105,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 5839011375755796921, guid: d6b5f0cb31b464224b287b148adfb849, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5839011375755796921, guid: d6b5f0cb31b464224b287b148adfb849, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
@@ -8231,6 +8267,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 1304994548320076974, guid: d3530451db3444766adf1389fbf8a0e1, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1304994548320076974, guid: d3530451db3444766adf1389fbf8a0e1, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
@@ -8481,6 +8521,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 6796223223409600042, guid: e27d6b2a9516a48179c924367d3b0eff, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6796223223409600042, guid: e27d6b2a9516a48179c924367d3b0eff, type: 3}
       propertyPath: snapAreaMax.x
       value: 6
@@ -8736,6 +8780,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 9093822358922753117, guid: e5eb54ccc6b5b4d45b889cbce6d7c2f5, type: 3}
+      propertyPath: debugLive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9093822358922753117, guid: e5eb54ccc6b5b4d45b889cbce6d7c2f5, type: 3}
       propertyPath: snapAreaMax.x
       value: 6

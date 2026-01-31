@@ -28,7 +28,6 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     [SerializeField] private bool hardClampToLimits = true;
 
     [Header("Limits Tolerance")]
-    [Tooltip("Serve per evitare che i bounds risultino 'mai completamente dentro' per errori float/padding sprite.")]
     [SerializeField] private float insideTolerance = 0.02f;
 
     [Header("Tiles Overlap (2D)")]
@@ -45,12 +44,13 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     [Header("Startup Cleanup")]
     [SerializeField] private bool destroyTilesWithAlphaZeroOnStart = true;
 
+    [Header("Lock After Placed")]
+    [SerializeField] private bool lockAfterPlaced = true;
+
     [Header("Debug")]
     [SerializeField] private bool drawSnapAreaGizmos = true;
 
-    [SerializeField] private bool wallEngaged; // debug inspector
-
-    // ===== DEBUG LIVE (INSPECTOR) =====
+    // ===== DEBUG LIVE (Inspector) =====
     [Header("DEBUG LIVE (Inspector)")]
     [SerializeField] private bool debugLive = true;
 
@@ -69,10 +69,14 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 
     [SerializeField] private float dbg_tolerance;
 
+    // ===== internal =====
     private Collider2D draggerCollider;
     private bool isDragging;
     private Vector3 offset;
     private float fixedZ;
+
+    private bool isPlaced = false;
+    private bool wallEngaged = false;
 
     private ContactFilter2D tileFilter;
     private readonly List<Collider2D> overlapResults = new List<Collider2D>(32);
@@ -145,6 +149,8 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 
     private void TryBeginDrag(Vector2 mouseWorld)
     {
+        if (lockAfterPlaced && isPlaced) return;
+
         RaycastHit2D hit = Physics2D.Raycast(mouseWorld, Vector2.zero, 0f, draggableLayer);
         if (hit.collider == null || hit.collider != draggerCollider)
             return;
@@ -154,6 +160,8 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 
     private void BeginDrag(Vector2 mouseWorld)
     {
+        if (lockAfterPlaced && isPlaced) return;
+
         isDragging = true;
         wallEngaged = false;
 
@@ -170,39 +178,24 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         AddSortingOrder(dragSortingDelta);
     }
 
-    private bool WouldBeFullyInside(Vector3 desiredCardPos)
-{
-    if (!TryGetTileBounds(out Bounds currentBounds))
-        return false;
-
-    Vector3 delta = desiredCardPos - transform.position;
-    Bounds predicted = currentBounds;
-    predicted.center += delta;
-
-    return BoundsFullyInsideSnapArea(predicted);
-}
-
     private void Drag(Vector2 mouseWorld)
     {
         Vector3 mouseWorld3D = new Vector3(mouseWorld.x, mouseWorld.y, fixedZ);
-    Vector3 target = mouseWorld3D + offset;
-    target.z = fixedZ;
+        Vector3 target = mouseWorld3D + offset;
+        target.z = fixedZ;
 
-    if (useSnapLimits && hardClampToLimits)
-    {
-        // se non ho ancora ingaggiato il muro, lo ingaggio quando entro fully inside
-        if (!wallEngaged)
+        if (useSnapLimits && hardClampToLimits)
         {
-            if (WouldBeFullyInside(target))
-                wallEngaged = true;
+            if (!wallEngaged)
+            {
+                if (WouldBeFullyInside(target))
+                    wallEngaged = true;
+            }
+
+            if (wallEngaged)
+                target = ClampCardPositionToSnapArea(target);
         }
 
-        // se muro ingaggiato -> clamp SEMPRE
-        if (wallEngaged)
-            target = ClampCardPositionToSnapArea(target);
-    }
-
-        // snap live solo se dentro area (posizione target)
         if (!snapWhileDragging || board == null || !IsWithinSnapArea(target))
         {
             transform.position = target;
@@ -214,8 +207,8 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         {
             MoveCardToSlotPosition(slot.transform.position);
 
-            if (useSnapLimits && hardClampToLimits)
-                transform.position = ClampIfAlreadyFullyInside(transform.position);
+            if (useSnapLimits && hardClampToLimits && wallEngaged)
+                transform.position = ClampCardPositionToSnapArea(transform.position);
 
             Physics2D.SyncTransforms();
         }
@@ -229,15 +222,24 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     {
         isDragging = false;
 
-        // al rilascio: clamp definitivo (muro attivo)
-       if (useSnapLimits && hardClampToLimits)
-    transform.position = ClampCardPositionToSnapArea(transform.position);
+        if (useSnapLimits && hardClampToLimits)
+            transform.position = ClampCardPositionToSnapArea(transform.position);
 
         bool snapped = SnapToClosestSlotAllowOccupied_WithinLimits();
         Physics2D.SyncTransforms();
 
         if (snapped)
+        {
             GetComponent<CardLifecycle>()?.MarkPlaced();
+
+            if (lockAfterPlaced)
+            {
+                isPlaced = true;
+
+                if (draggerCollider != null)
+                    draggerCollider.enabled = false;
+            }
+        }
 
         dropRoutine = StartCoroutine(DestroyAfterPhysicsUpdate());
     }
@@ -303,16 +305,14 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
                b.min.y >= minY && b.max.y <= maxY;
     }
 
-    private Vector3 ClampIfAlreadyFullyInside(Vector3 desiredCardPos)
+    private bool WouldBeFullyInside(Vector3 desiredCardPos)
     {
-        if (!useSnapLimits) return desiredCardPos;
-
         dbg_wallActiveThisFrame = false;
 
         if (!TryGetTileBounds(out Bounds currentBounds))
         {
-            if (debugLive) UpdateDebugBounds(false, currentBounds, currentBounds);
-            return desiredCardPos;
+            if (debugLive) UpdateDebugBounds(false, currentBounds, currentBounds, false);
+            return false;
         }
 
         Vector3 delta = desiredCardPos - transform.position;
@@ -324,11 +324,8 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         if (debugLive)
             UpdateDebugBounds(true, currentBounds, predicted, fullyInside);
 
-        if (!fullyInside)
-            return desiredCardPos;
-
-        dbg_wallActiveThisFrame = true;
-        return ClampCardPositionToSnapArea(desiredCardPos);
+        dbg_wallActiveThisFrame = fullyInside;
+        return fullyInside;
     }
 
     private Vector3 ClampCardPositionToSnapArea(Vector3 desiredCardPos)
@@ -360,7 +357,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         return clamped;
     }
 
-    private void UpdateDebugBounds(bool hasBounds, Bounds current, Bounds predicted, bool fullyInside = false)
+    private void UpdateDebugBounds(bool hasBounds, Bounds current, Bounds predicted, bool fullyInside)
     {
         dbg_hasTileBounds = hasBounds;
         dbg_predictedFullyInside = fullyInside;
@@ -502,26 +499,24 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         RefreshTileCache();
     }
 
-    private void DestroyTilesWithAlphaZero()
+    private void DestroyTilesWithAlphaZeroOnStart()
     {
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>(true);
 
         foreach (var sr in renderers)
         {
             if (sr == null) continue;
+            if (!IsInLayerMask(sr.gameObject.layer, tileLayer)) continue;
 
-            if (!IsInLayerMask(sr.gameObject.layer, tileLayer))
-                continue;
-
-            float alphaSprite = sr.color.a;
-
-            float alphaMat = 1f;
-            if (sr.material != null && sr.material.HasProperty("_Color"))
-                alphaMat = sr.material.color.a;
-
-            if (alphaSprite <= 0f || alphaMat <= 0f)
+            if (sr.color.a <= 0f)
                 Destroy(sr.gameObject);
         }
+    }
+
+    private void DestroyTilesWithAlphaZero()
+    {
+        if (!destroyTilesWithAlphaZeroOnStart) return;
+        DestroyTilesWithAlphaZeroOnStart();
     }
 
     private void RefreshTileCache()
