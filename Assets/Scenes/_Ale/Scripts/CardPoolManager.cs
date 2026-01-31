@@ -324,6 +324,25 @@ public class CardPoolManager : MonoBehaviour
         }
     }
 
+    public GameObject GetPrefabById(string cardId)
+{
+    if (string.IsNullOrEmpty(cardId)) return null;
+    return prefabById.TryGetValue(cardId, out var p) ? p : null;
+}
+
+public List<string> GetLockedCardIds()
+{
+    var locked = new List<string>();
+
+    foreach (var kv in unlockedById)
+    {
+        if (!kv.Value) // false = locked
+            locked.Add(kv.Key);
+    }
+
+    return locked;
+}
+
     private void UpdateInspectorDebug()
     {
         poolDebug.Clear();

@@ -2377,6 +2377,7 @@ GameObject:
   - component: {fileID: 2074285586907967844}
   - component: {fileID: 3600282491830002982}
   - component: {fileID: 1079272740826935378}
+  - component: {fileID: 638464915029398430}
   m_Layer: 0
   m_Name: Card_12
   m_TagString: Untagged
@@ -2564,6 +2565,19 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+--- !u!114 &638464915029398430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8191442595441999481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d978a42086f5b421dbdc064f0b51647f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardUnlockState
+  unlocked: 0
 --- !u!1 &8272548336737825125
 GameObject:
   m_ObjectHideFlags: 0
