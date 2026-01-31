@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class CardLifeCycle : MonoBehaviour
+public class CardLifecycle : MonoBehaviour
 {
-    public System.Action<CardLifeCycle> OnPlaced;
-    public System.Action<CardLifeCycle> OnLostTilesAfterPlaced;
+    public System.Action<CardLifecycle> OnPlaced;
+    public System.Action<CardLifecycle> OnLostTileAfterPlaced;
 
-    private bool placed = false;
-    private bool reintroducedOnce = false;
+    private bool placed;
+    private bool releasedOnce;
     private int initialTileCount = -1;
 
     private void Start()
@@ -21,17 +21,17 @@ public class CardLifeCycle : MonoBehaviour
         OnPlaced?.Invoke(this);
     }
 
-    // chiamalo dopo la cancellazione tile (dopo drop)
+    // Chiamalo DOPO la distruzione tile (dopo drop)
     public void CheckIfLostTiles()
     {
         if (!placed) return;
-        if (reintroducedOnce) return;
+        if (releasedOnce) return;
 
         int now = GetTileCount();
         if (now < initialTileCount)
         {
-            reintroducedOnce = true;               // ✅ una sola volta
-            OnLostTilesAfterPlaced?.Invoke(this);
+            releasedOnce = true; // ✅ rilascia una sola volta
+            OnLostTileAfterPlaced?.Invoke(this);
         }
     }
 
