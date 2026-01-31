@@ -38,7 +38,7 @@ public class CardPoolManager : MonoBehaviour
     [SerializeField] private string lastPoolEvent = "";
 
     [Header("Events (Inspector)")]
-    public UnityEvent OnSpawnTile; // ✅ evento semplice, trascinabile in inspector
+    public UnityEvent OnSpawnTile;
 
     // cardId -> prefab
     private readonly Dictionary<string, GameObject> prefabById = new();
@@ -48,6 +48,9 @@ public class CardPoolManager : MonoBehaviour
 
     // cardId -> lista copie disponibili
     private readonly Dictionary<string, List<int>> availableCopiesById = new();
+
+    // cardId -> unlocked (dinamico)
+    private readonly Dictionary<string, bool> unlockedById = new();
 
     // lista id generabili
     private readonly List<string> generatableIds = new();
@@ -64,6 +67,49 @@ public class CardPoolManager : MonoBehaviour
     private void Update()
     {
         if (!liveInspectorDebug) return;
+        UpdateInspectorDebug();
+    }
+
+    // =========================================================
+    // PUBLIC API (UNLOCK)
+    // =========================================================
+
+    /// <summary>
+    /// Sblocca/Blocca una card runtime. Aggiorna subito il pool.
+    /// </summary>
+    public void SetCardUnlocked(string cardId, bool value)
+    {
+        if (string.IsNullOrEmpty(cardId)) return;
+
+        if (!unlockedById.ContainsKey(cardId))
+        {
+            Debug.LogWarning($"[CardPoolManager] SetCardUnlocked: cardId '{cardId}' non trovato nel pool.");
+            return;
+        }
+
+        unlockedById[cardId] = value;
+        lastPoolEvent = $"UNLOCK -> {cardId} = {value}";
+        RefreshGeneratableIds();
+        UpdateInspectorDebug();
+    }
+
+    /// <summary>
+    /// Legge lo stato UNLOCK dal prefab (CardUnlockState) e aggiorna la cache.
+    /// Utile se modifichi CardUnlockState direttamente sul prefab o su un "database".
+    /// </summary>
+    public void RefreshUnlocksFromPrefabs()
+    {
+        foreach (var kv in prefabById)
+        {
+            string id = kv.Key;
+            var prefab = kv.Value;
+
+            var unlock = prefab != null ? prefab.GetComponent<CardUnlockState>() : null;
+            unlockedById[id] = (unlock == null) ? true : unlock.Unlocked;
+        }
+
+        lastPoolEvent = "UNLOCK REFRESH FROM PREFABS";
+        RefreshGeneratableIds();
         UpdateInspectorDebug();
     }
 
@@ -88,6 +134,7 @@ public class CardPoolManager : MonoBehaviour
         prefabById.Clear();
         maxCopiesById.Clear();
         availableCopiesById.Clear();
+        unlockedById.Clear();
         generatableIds.Clear();
 
         foreach (var p in prefabs)
@@ -119,6 +166,10 @@ public class CardPoolManager : MonoBehaviour
                 list.Add(i);
 
             availableCopiesById[id] = list;
+
+            // ✅ init unlocked dal prefab CardUnlockState
+            var unlock = p.prefab.GetComponent<CardUnlockState>();
+            unlockedById[id] = (unlock == null) ? true : unlock.Unlocked;
         }
 
         RefreshGeneratableIds();
@@ -139,8 +190,8 @@ public class CardPoolManager : MonoBehaviour
 
         if (generatableIds.Count == 0)
         {
-            lastPoolEvent = "POOL EMPTY -> no more spawnable cards";
-            Debug.Log("[CardPoolManager] Non esistono più carte generabili (pool vuoto).");
+            lastPoolEvent = "POOL EMPTY or ALL LOCKED -> no more spawnable cards";
+            Debug.Log("[CardPoolManager] Nessuna carta generabile: pool vuoto o tutte bloccate.");
             return;
         }
 
@@ -163,38 +214,32 @@ public class CardPoolManager : MonoBehaviour
         Transform slot = handSlots[slotIndex];
 
         GameObject cardGO = Instantiate(prefab, slot.position, slot.rotation);
-        cardGO.SetActive(true); // IMPORTANT: visibilità attiva
+        cardGO.SetActive(true);
         cardGO.transform.SetParent(handRoot, true);
 
-        // rename
         cardGO.name = $"{id}{copyNumber}";
 
-        // instance info
         var inst = cardGO.GetComponent<CardInstance>();
         if (inst == null) inst = cardGO.AddComponent<CardInstance>();
         inst.cardId = id;
         inst.copyNumber = copyNumber;
         inst.returnedToPoolOnce = false;
 
-        // lifecycle
         var life = cardGO.GetComponent<CardLifecycle>();
         if (life == null) life = cardGO.AddComponent<CardLifecycle>();
 
-        // safety: evita doppie subscription se prefab già aveva component
         life.OnPlaced -= HandlePlaced;
         life.OnLostTileAfterPlaced -= HandleLostTileAfterPlaced;
 
         life.OnPlaced += HandlePlaced;
         life.OnLostTileAfterPlaced += HandleLostTileAfterPlaced;
 
-        // slot ref
         var slotRef = cardGO.GetComponent<CardHandSlotRef>();
         if (slotRef == null) slotRef = cardGO.AddComponent<CardHandSlotRef>();
         slotRef.slotIndex = slotIndex;
 
         lastPoolEvent = $"SPAWN -> {id}{copyNumber} (slot {slotIndex})";
 
-        // ✅ EVENTO INSPECTOR (senza parametri)
         OnSpawnTile?.Invoke();
 
         RefreshGeneratableIds();
@@ -212,7 +257,6 @@ public class CardPoolManager : MonoBehaviour
 
         if (slotIndex < 0) return;
 
-        // respawn con DELAY
         StartCoroutine(SpawnCardInSlotDelayed(slotIndex));
     }
 
@@ -269,8 +313,14 @@ public class CardPoolManager : MonoBehaviour
 
         foreach (var kv in availableCopiesById)
         {
+            string id = kv.Key;
+
+            // ✅ filtro UNLOCKED
+            if (unlockedById.TryGetValue(id, out bool unlocked) && !unlocked)
+                continue;
+
             if (kv.Value != null && kv.Value.Count > 0)
-                generatableIds.Add(kv.Key);
+                generatableIds.Add(id);
         }
     }
 
@@ -306,7 +356,8 @@ public class CardPoolManager : MonoBehaviour
         {
             string id = kv.Key;
             string copies = kv.Value.Count > 0 ? string.Join(",", kv.Value) : "EMPTY";
-            Debug.Log($"[Pool] {id} -> [{copies}] (max={maxCopiesById[id]})");
+            bool unlocked = !unlockedById.ContainsKey(id) || unlockedById[id];
+            Debug.Log($"[Pool] {id} -> [{copies}] (max={maxCopiesById[id]}) unlocked={unlocked}");
         }
 
         Debug.Log($"[Pool] last event: {lastPoolEvent}");
