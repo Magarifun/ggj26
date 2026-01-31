@@ -200,4 +200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4597214432c62774dbe82c0bb6a359ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ball
-  rotationFactor: 10
+  shockwaveMaterial: {fileID: 2100000, guid: b183ccb5894f5634994bc991a1344f43, type: 2}
+  explosionDuration: 0.2
+  maxExplosionRadius: 3
