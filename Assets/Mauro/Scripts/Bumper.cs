@@ -21,7 +21,7 @@ public class Bumper : MonoBehaviour
         {
             ContactPoint2D contact = collision.contacts[0];
             float normalizedImpulse = impulse * Mathf.Sqrt(Mathf.Abs(Physics2D.gravity.y));
-            collision.otherRigidbody.AddForce(-impulse * contact.normal, ForceMode2D.Impulse);
+            collision.rigidbody.AddForce(-impulse * contact.normal, ForceMode2D.Impulse);
         }
     }
 }
