@@ -50,7 +50,7 @@ public class Chase : MonoBehaviour
             Invoke(nameof(SetChaserSpeed), chaseInitialDelay);
         }
         chaser.Progress = 0.0f;
-        OnUpdateScore();
+        chased.Progress = chasedProgressAtLevelStart;
     }
 
     private void SetChaserSpeed()
@@ -72,7 +72,9 @@ public class Chase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        scoreLabel.text = Mathf.RoundToInt(chased.ActualProgress * scoreGoal) + " / " + scoreGoal;
+        int reachedScore = Mathf.RoundToInt(scoreGoal * 
+            (chased.ActualProgress - chasedProgressAtLevelStart) / (1.0f - chasedProgressAtLevelStart));
+        scoreLabel.text = reachedScore + " / " + scoreGoal;
         if (chaser.ActualProgress >= chased.ActualProgress)
         {
             onChaseEnd?.Invoke();
