@@ -7088,6 +7088,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8101903203028203625, guid: 0fd997efdba7b4723b86c6d0f586315b, type: 3}
+      propertyPath: spawnDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8101903203028203625, guid: 0fd997efdba7b4723b86c6d0f586315b, type: 3}
       propertyPath: 'handSlots.Array.data[0]'
       value: 
       objectReference: {fileID: 1219774888}
