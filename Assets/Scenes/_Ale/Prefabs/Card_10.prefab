@@ -1918,7 +1918,7 @@ MonoBehaviour:
   snapWhileDragging: 1
   dragSnapDistance: 2.5
   useSnapLimits: 1
-  snapAreaMin: {x: -10, y: -6}
+  snapAreaMin: {x: -10.58, y: -6}
   snapAreaMax: {x: 6, y: 4.5}
   hardClampToLimits: 1
   insideTolerance: 0.02
@@ -1931,6 +1931,7 @@ MonoBehaviour:
   overlapEpsilon: 0.001
   destroyTilesWithAlphaZeroOnStart: 1
   lockAfterPlaced: 1
+  disableLevel3CollidersWhileDragging: 1
   drawSnapAreaGizmos: 1
   debugLive: 1
   dbg_hasTileBounds: 0
@@ -1943,6 +1944,7 @@ MonoBehaviour:
   dbg_predictedBoundsMin: {x: 0, y: 0}
   dbg_predictedBoundsMax: {x: 0, y: 0}
   dbg_tolerance: 0
+  isPlaced: 0
 --- !u!114 &7426729261980585456
 MonoBehaviour:
   m_ObjectHideFlags: 0
