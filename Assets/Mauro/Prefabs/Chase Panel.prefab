@@ -165,9 +165,25 @@ MonoBehaviour:
   chased: {fileID: 4523222373810411823}
   levelLabel: {fileID: 5621624104942167590}
   scoreLabel: {fileID: 4169760310387036487}
+  wolfPawPrefab: {fileID: 4619648906962437942, guid: 93c1247d45ad008458a4c5aeed89f9ca, type: 3}
   onChaseEnd:
     m_PersistentCalls:
       m_Calls: []
+  onLevelUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4095930800929502757}
+        m_TargetAssemblyTypeName: Chase, Assembly-CSharp
+        m_MethodName: SpawnWolfPaw
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &4159106302951683396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -596,7 +612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: spine-unity::Spine.Unity.SkeletonAnimation
-  skeletonDataAsset: {fileID: 11400000, guid: 8cf345ee2767f497b8b67b5f02cf43cd, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 5cad2dfb695ff448bbbc5403e5e2bfad, type: 2}
   initialSkinName: lupo
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -911,7 +927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: spine-unity::Spine.Unity.SkeletonAnimation
-  skeletonDataAsset: {fileID: 11400000, guid: 8cf345ee2767f497b8b67b5f02cf43cd, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 5cad2dfb695ff448bbbc5403e5e2bfad, type: 2}
   initialSkinName: cappuccetto
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0

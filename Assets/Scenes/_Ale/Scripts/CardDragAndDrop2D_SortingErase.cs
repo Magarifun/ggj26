@@ -79,7 +79,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     private Vector3 offset;
     private float fixedZ;
 
-    private bool isPlaced = false;
+    public bool isPlaced = false;
     private bool wallEngaged = false;
 
     private ContactFilter2D tileFilter;
