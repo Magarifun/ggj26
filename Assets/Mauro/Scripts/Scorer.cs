@@ -27,5 +27,11 @@ public class Scorer : MonoBehaviour
         scoreObject.name = $"Score {points} pts.";
         Score score = scoreObject.GetComponent<Score>();
         score.points = points;
+
+        PlayRandomSoundFromArray sfx = origin.GetComponent<PlayRandomSoundFromArray>();
+        if (sfx)
+        {
+            sfx.PlayRandom();
+        }
     }
 }
