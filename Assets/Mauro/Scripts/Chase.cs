@@ -15,7 +15,9 @@ public class Chase : MonoBehaviour
     public ChaseIcon chased;
     public TextMeshPro levelLabel;
     public TextMeshPro scoreLabel;
+    public WolfPaw wolfPawPrefab;
     public UnityEvent onChaseEnd;
+    public UnityEvent onLevelUp;
     private int level;
     private int scoreGoal;
     private int score;
@@ -82,7 +84,13 @@ public class Chase : MonoBehaviour
         }
         else if (chased.ActualProgress >= 1.0f)
         {
+            onLevelUp?.Invoke();
             SetLevel(level + 1);
         }
+    }
+
+    public void SpawnWolfPaw()
+    {
+        Instantiate(wolfPawPrefab, transform.position, Quaternion.identity);
     }
 }
