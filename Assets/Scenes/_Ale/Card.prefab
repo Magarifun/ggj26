@@ -1192,9 +1192,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1341632164799521427}
   - component: {fileID: 2345549903154419368}
-  - component: {fileID: 693424319221307534}
-  - component: {fileID: 1881169804287769499}
   - component: {fileID: 8310799210870445757}
+  - component: {fileID: 6068759927550734190}
+  - component: {fileID: 3761654608795299662}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -1260,43 +1260,6 @@ MonoBehaviour:
   - {fileID: 9024945400745220824}
   - {fileID: 2020899490772669474}
   hiddenCount: 2
---- !u!114 &693424319221307534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7263962670372819136}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2a9f751295ee446fad7dd408630a53b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardDragAndDrop2D
-  cardDragger: {fileID: 4536527809896373197}
-  cam: {fileID: 0}
-  draggableLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  board: {fileID: 0}
-  snapDistance: 1.5
-  fixedZ: 0
---- !u!114 &1881169804287769499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7263962670372819136}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c684afdabbbb47b49fa61188bc2197a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  tileLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  includeTriggers: 1
-  minOverlapDistance: 1
 --- !u!114 &8310799210870445757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1316,12 +1279,42 @@ MonoBehaviour:
     m_Bits: 64
   board: {fileID: 0}
   snapDistance: 1.5
+  snapWhileDragging: 1
+  dragSnapDistance: 2.5
   tileLayer:
     serializedVersion: 2
     m_Bits: 128
   includeTriggers: 1
   dragSortingDelta: 1
   resetSortingOrder: 0
+  overlapEpsilon: 0.01
+  destroyTilesWithAlphaZeroOnStart: 1
+--- !u!114 &6068759927550734190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7263962670372819136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0800692b7f8fa41bb8f3f83ac31e14c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  cardId: Card_A
+  maxCopiesInDeck: 3
+--- !u!114 &3761654608795299662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7263962670372819136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a530399742c2a4d07a968b78b755a61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &7565370106043385544
 GameObject:
   m_ObjectHideFlags: 0
