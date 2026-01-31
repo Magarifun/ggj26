@@ -22,7 +22,6 @@ public class ChaseIcon : MonoBehaviour
     public float Speed { set { speed = value; } }
     public float ActualProgress => actualProgress;
 
-
     void Update()
     {
         targetProgress += speed * Time.deltaTime;
