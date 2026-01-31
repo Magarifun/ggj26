@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Transform cardDragger;     // child con Collider2D
-    [SerializeField] private Transform snapAnchor;      // child "SnapAnchor"
+    [SerializeField] private Transform cardDragger;
+    [SerializeField] private Transform snapAnchor;
     [SerializeField] private Camera cam;
     [SerializeField] private LayerMask draggableLayer;
 
@@ -19,8 +19,20 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     [SerializeField] private bool snapWhileDragging = true;
     [SerializeField] private float dragSnapDistance = 2.5f;
 
+    [Header("Snap Limits (World Space)")]
+    [SerializeField] private bool useSnapLimits = true;
+    [SerializeField] private Vector2 snapAreaMin = new Vector2(-5, -3);
+    [SerializeField] private Vector2 snapAreaMax = new Vector2(5, 3);
+
+    [Header("Limits Behaviour")]
+    [SerializeField] private bool hardClampToLimits = true;
+
+    [Header("Limits Tolerance")]
+    [Tooltip("Serve per evitare che i bounds risultino 'mai completamente dentro' per errori float/padding sprite.")]
+    [SerializeField] private float insideTolerance = 0.02f;
+
     [Header("Tiles Overlap (2D)")]
-    [SerializeField] private LayerMask tileLayer;       // <-- metti Tile2D
+    [SerializeField] private LayerMask tileLayer;
     [SerializeField] private bool includeTriggers = true;
 
     [Header("Sorting")]
@@ -28,32 +40,47 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     [SerializeField] private int resetSortingOrder = 0;
 
     [Header("Overlap Precision")]
-    [Tooltip("Più alto = elimina meno (più strict). 0.001 è un buon default.")]
     [SerializeField] private float overlapEpsilon = 0.001f;
 
     [Header("Startup Cleanup")]
     [SerializeField] private bool destroyTilesWithAlphaZeroOnStart = true;
 
-    [Header("Tile Grid Snap")]
-    [SerializeField] private float tileSize = 1f;
+    [Header("Debug")]
+    [SerializeField] private bool drawSnapAreaGizmos = true;
+
+    [SerializeField] private bool wallEngaged; // debug inspector
+
+    // ===== DEBUG LIVE (INSPECTOR) =====
+    [Header("DEBUG LIVE (Inspector)")]
+    [SerializeField] private bool debugLive = true;
+
+    [SerializeField] private bool dbg_hasTileBounds;
+    [SerializeField] private bool dbg_predictedFullyInside;
+    [SerializeField] private bool dbg_wallActiveThisFrame;
+
+    [SerializeField] private Vector2 dbg_snapMin;
+    [SerializeField] private Vector2 dbg_snapMax;
+
+    [SerializeField] private Vector2 dbg_tileBoundsMin;
+    [SerializeField] private Vector2 dbg_tileBoundsMax;
+
+    [SerializeField] private Vector2 dbg_predictedBoundsMin;
+    [SerializeField] private Vector2 dbg_predictedBoundsMax;
+
+    [SerializeField] private float dbg_tolerance;
 
     private Collider2D draggerCollider;
     private bool isDragging;
     private Vector3 offset;
     private float fixedZ;
 
-    private BoardSlot2D currentSlot;
-
     private ContactFilter2D tileFilter;
     private readonly List<Collider2D> overlapResults = new List<Collider2D>(32);
     private readonly HashSet<Collider2D> toDestroy = new HashSet<Collider2D>();
+    private readonly HashSet<CardLifecycle> affectedCards = new HashSet<CardLifecycle>();
 
-    // cache SOLO tile
     private Collider2D[] tileColliders;
     private SpriteRenderer[] tileRenderers;
-
-    // card colpite (quelle sotto che perdono tile)
-    private readonly HashSet<CardLifecycle> affectedCards = new HashSet<CardLifecycle>();
 
     private Coroutine dropRoutine;
 
@@ -128,14 +155,13 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     private void BeginDrag(Vector2 mouseWorld)
     {
         isDragging = true;
+        wallEngaged = false;
 
         if (dropRoutine != null)
         {
             StopCoroutine(dropRoutine);
             dropRoutine = null;
         }
-
-        ReleaseCurrentSlot();
 
         Vector3 mouseWorld3D = new Vector3(mouseWorld.x, mouseWorld.y, fixedZ);
         offset = transform.position - mouseWorld3D;
@@ -144,23 +170,53 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         AddSortingOrder(dragSortingDelta);
     }
 
+    private bool WouldBeFullyInside(Vector3 desiredCardPos)
+{
+    if (!TryGetTileBounds(out Bounds currentBounds))
+        return false;
+
+    Vector3 delta = desiredCardPos - transform.position;
+    Bounds predicted = currentBounds;
+    predicted.center += delta;
+
+    return BoundsFullyInsideSnapArea(predicted);
+}
+
     private void Drag(Vector2 mouseWorld)
     {
         Vector3 mouseWorld3D = new Vector3(mouseWorld.x, mouseWorld.y, fixedZ);
-        Vector3 target = mouseWorld3D + offset;
-        target.z = fixedZ;
+    Vector3 target = mouseWorld3D + offset;
+    target.z = fixedZ;
 
-        if (!snapWhileDragging || board == null)
+    if (useSnapLimits && hardClampToLimits)
+    {
+        // se non ho ancora ingaggiato il muro, lo ingaggio quando entro fully inside
+        if (!wallEngaged)
+        {
+            if (WouldBeFullyInside(target))
+                wallEngaged = true;
+        }
+
+        // se muro ingaggiato -> clamp SEMPRE
+        if (wallEngaged)
+            target = ClampCardPositionToSnapArea(target);
+    }
+
+        // snap live solo se dentro area (posizione target)
+        if (!snapWhileDragging || board == null || !IsWithinSnapArea(target))
         {
             transform.position = target;
             return;
         }
 
-        // snap live anche su slot occupati
         BoardSlot2D slot = GetClosestSlot(target, dragSnapDistance);
         if (slot != null)
         {
             MoveCardToSlotPosition(slot.transform.position);
+
+            if (useSnapLimits && hardClampToLimits)
+                transform.position = ClampIfAlreadyFullyInside(transform.position);
+
             Physics2D.SyncTransforms();
         }
         else
@@ -169,33 +225,22 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         }
     }
 
-   private void EndDrag()
-{
-    isDragging = false;
+    private void EndDrag()
+    {
+        isDragging = false;
 
-    bool snapped = SnapToClosestSlotAllowOccupied();
-    Physics2D.SyncTransforms();
+        // al rilascio: clamp definitivo (muro attivo)
+       if (useSnapLimits && hardClampToLimits)
+    transform.position = ClampCardPositionToSnapArea(transform.position);
 
-    if (snapped)
-        GetComponent<CardLifecycle>()?.MarkPlaced();
+        bool snapped = SnapToClosestSlotAllowOccupied_WithinLimits();
+        Physics2D.SyncTransforms();
 
-    dropRoutine = StartCoroutine(DestroyAfterPhysicsUpdate());
-}
+        if (snapped)
+            GetComponent<CardLifecycle>()?.MarkPlaced();
 
-    private bool SnapToClosestSlotAllowOccupied()
-{
-    if (board == null) return false;
-
-    BoardSlot2D slot = GetClosestSlot(transform.position, snapDistance);
-    if (slot == null) return false;
-
-    MoveCardToSlotPosition(slot.transform.position);
-
-    // NON tocchiamo occupied qui, perché vogliamo permettere overlap
-    currentSlot = slot;
-
-    return true;
-}
+        dropRoutine = StartCoroutine(DestroyAfterPhysicsUpdate());
+    }
 
     private IEnumerator DestroyAfterPhysicsUpdate()
     {
@@ -204,10 +249,140 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         DestroyTilesStillUnderMe();
 
         Physics2D.SyncTransforms();
-
         SetSortingOrder(resetSortingOrder);
 
         dropRoutine = null;
+    }
+
+    // ---------- LIMITS ----------
+
+    private bool IsWithinSnapArea(Vector3 worldPos)
+    {
+        if (!useSnapLimits) return true;
+
+        return worldPos.x >= snapAreaMin.x && worldPos.x <= snapAreaMax.x &&
+               worldPos.y >= snapAreaMin.y && worldPos.y <= snapAreaMax.y;
+    }
+
+    private bool TryGetTileBounds(out Bounds bounds)
+    {
+        bounds = new Bounds(transform.position, Vector3.zero);
+
+        if (tileRenderers == null || tileRenderers.Length == 0)
+            RefreshTileCache();
+
+        bool hasAny = false;
+
+        foreach (var sr in tileRenderers)
+        {
+            if (sr == null) continue;
+            if (!IsInLayerMask(sr.gameObject.layer, tileLayer)) continue;
+
+            if (!hasAny)
+            {
+                bounds = sr.bounds;
+                hasAny = true;
+            }
+            else
+            {
+                bounds.Encapsulate(sr.bounds);
+            }
+        }
+
+        return hasAny;
+    }
+
+    private bool BoundsFullyInsideSnapArea(Bounds b)
+    {
+        float minX = snapAreaMin.x + insideTolerance;
+        float minY = snapAreaMin.y + insideTolerance;
+        float maxX = snapAreaMax.x - insideTolerance;
+        float maxY = snapAreaMax.y - insideTolerance;
+
+        return b.min.x >= minX && b.max.x <= maxX &&
+               b.min.y >= minY && b.max.y <= maxY;
+    }
+
+    private Vector3 ClampIfAlreadyFullyInside(Vector3 desiredCardPos)
+    {
+        if (!useSnapLimits) return desiredCardPos;
+
+        dbg_wallActiveThisFrame = false;
+
+        if (!TryGetTileBounds(out Bounds currentBounds))
+        {
+            if (debugLive) UpdateDebugBounds(false, currentBounds, currentBounds);
+            return desiredCardPos;
+        }
+
+        Vector3 delta = desiredCardPos - transform.position;
+        Bounds predicted = currentBounds;
+        predicted.center += delta;
+
+        bool fullyInside = BoundsFullyInsideSnapArea(predicted);
+
+        if (debugLive)
+            UpdateDebugBounds(true, currentBounds, predicted, fullyInside);
+
+        if (!fullyInside)
+            return desiredCardPos;
+
+        dbg_wallActiveThisFrame = true;
+        return ClampCardPositionToSnapArea(desiredCardPos);
+    }
+
+    private Vector3 ClampCardPositionToSnapArea(Vector3 desiredCardPos)
+    {
+        if (!useSnapLimits) return desiredCardPos;
+
+        if (!TryGetTileBounds(out Bounds tileBounds))
+            return desiredCardPos;
+
+        Vector3 delta = desiredCardPos - transform.position;
+        Bounds predicted = tileBounds;
+        predicted.center += delta;
+
+        float shiftX = 0f;
+        float shiftY = 0f;
+
+        if (predicted.min.x < snapAreaMin.x)
+            shiftX += snapAreaMin.x - predicted.min.x;
+        if (predicted.max.x > snapAreaMax.x)
+            shiftX -= predicted.max.x - snapAreaMax.x;
+
+        if (predicted.min.y < snapAreaMin.y)
+            shiftY += snapAreaMin.y - predicted.min.y;
+        if (predicted.max.y > snapAreaMax.y)
+            shiftY -= predicted.max.y - snapAreaMax.y;
+
+        Vector3 clamped = desiredCardPos + new Vector3(shiftX, shiftY, 0f);
+        clamped.z = fixedZ;
+        return clamped;
+    }
+
+    private void UpdateDebugBounds(bool hasBounds, Bounds current, Bounds predicted, bool fullyInside = false)
+    {
+        dbg_hasTileBounds = hasBounds;
+        dbg_predictedFullyInside = fullyInside;
+        dbg_tolerance = insideTolerance;
+
+        dbg_snapMin = snapAreaMin;
+        dbg_snapMax = snapAreaMax;
+
+        if (!hasBounds)
+        {
+            dbg_tileBoundsMin = Vector2.zero;
+            dbg_tileBoundsMax = Vector2.zero;
+            dbg_predictedBoundsMin = Vector2.zero;
+            dbg_predictedBoundsMax = Vector2.zero;
+            return;
+        }
+
+        dbg_tileBoundsMin = new Vector2(current.min.x, current.min.y);
+        dbg_tileBoundsMax = new Vector2(current.max.x, current.max.y);
+
+        dbg_predictedBoundsMin = new Vector2(predicted.min.x, predicted.min.y);
+        dbg_predictedBoundsMax = new Vector2(predicted.max.x, predicted.max.y);
     }
 
     // ---------- SNAP ----------
@@ -234,48 +409,35 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         return best;
     }
 
-    // private bool SnapThisCardPreferFree()
-    // {
-    //     if (board == null) return false;
-
-    //     // 1) preferisci libero
-    //     BoardSlot2D free = board.GetClosestFreeSlot(transform.position, snapDistance);
-    //     if (free != null)
-    //     {
-    //         MoveCardToSlotPosition(free.transform.position);
-    //         free.occupied = true;
-    //         currentSlot = free;
-    //         return true;
-    //     }
-
-    //     // 2) altrimenti snap su occupato
-    //     BoardSlot2D any = GetClosestSlot(transform.position, snapDistance);
-    //     if (any != null)
-    //     {
-    //         MoveCardToSlotPosition(any.transform.position);
-    //         return true;
-    //     }
-
-    //     return false;
-    // }
-
-  private void MoveCardToSlotPosition(Vector3 slotPosition)
-{
-    // snap del target alla griglia delle tile
-    float snappedX = Mathf.Round(slotPosition.x / tileSize) * tileSize;
-    float snappedY = Mathf.Round(slotPosition.y / tileSize) * tileSize;
-
-    Vector3 desired = new Vector3(snappedX, snappedY, fixedZ);
-
-    if (snapAnchor == null)
+    private bool SnapToClosestSlotAllowOccupied_WithinLimits()
     {
-        transform.position = desired;
-        return;
+        if (board == null) return false;
+        if (!IsWithinSnapArea(transform.position)) return false;
+
+        BoardSlot2D slot = GetClosestSlot(transform.position, snapDistance);
+        if (slot == null) return false;
+
+        MoveCardToSlotPosition(slot.transform.position);
+
+        if (useSnapLimits && hardClampToLimits)
+            transform.position = ClampCardPositionToSnapArea(transform.position);
+
+        return true;
     }
 
-    Vector3 delta = desired - snapAnchor.position;
-    transform.position += new Vector3(delta.x, delta.y, 0f);
-}
+    private void MoveCardToSlotPosition(Vector3 slotPosition)
+    {
+        Vector3 desired = new Vector3(slotPosition.x, slotPosition.y, fixedZ);
+
+        if (snapAnchor == null)
+        {
+            transform.position = desired;
+            return;
+        }
+
+        Vector3 delta = desired - snapAnchor.position;
+        transform.position += new Vector3(delta.x, delta.y, 0f);
+    }
 
     // ---------- DESTROY ----------
 
@@ -301,27 +463,22 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
                 Collider2D hit = overlapResults[i];
                 if (hit == null) continue;
 
-                // ignora tile della stessa card che sto muovendo
                 if (hit.transform.IsChildOf(transform))
                     continue;
 
                 SpriteRenderer hitSR = hit.GetComponent<SpriteRenderer>();
                 if (hitSR == null) continue;
 
-                // deve essere sotto in sorting order
                 if (hitSR.sortingOrder >= mySR.sortingOrder)
                     continue;
 
-                // deve essere visibile
                 if (hitSR.color.a <= 0f)
                     continue;
 
-                // overlap reale (evita adiacenti)
                 ColliderDistance2D d = myTile.Distance(hit);
                 if (!d.isOverlapped || d.distance > -overlapEpsilon)
                     continue;
 
-                // salva la card colpita (quella sotto)
                 CardLifecycle otherLife = hit.GetComponentInParent<CardLifecycle>();
                 if (otherLife != null)
                     affectedCards.Add(otherLife);
@@ -330,14 +487,12 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
             }
         }
 
-        // distruggi tile sotto
         foreach (var col in toDestroy)
         {
             if (col == null) continue;
             Destroy(col.gameObject);
         }
 
-        // 🔥 NOTIFICA IMMEDIATA alle card colpite (1 volta ciascuna)
         foreach (var life in affectedCards)
         {
             if (life == null) continue;
@@ -355,7 +510,6 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         {
             if (sr == null) continue;
 
-            // distruggi SOLO se è Tile2D
             if (!IsInLayerMask(sr.gameObject.layer, tileLayer))
                 continue;
 
@@ -406,15 +560,6 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
         return (mask.value & (1 << layer)) != 0;
     }
 
-    // ---------- SLOT / SORTING ----------
-
-    private void ReleaseCurrentSlot()
-    {
-        if (currentSlot == null) return;
-        currentSlot.occupied = false;
-        currentSlot = null;
-    }
-
     private void AddSortingOrder(int delta)
     {
         if (tileRenderers == null || tileRenderers.Length == 0)
@@ -437,5 +582,21 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
             if (sr == null) continue;
             sr.sortingOrder = value;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!drawSnapAreaGizmos) return;
+        if (!useSnapLimits) return;
+
+        Gizmos.color = Color.yellow;
+
+        Vector3 min = new Vector3(snapAreaMin.x, snapAreaMin.y, 0f);
+        Vector3 max = new Vector3(snapAreaMax.x, snapAreaMax.y, 0f);
+
+        Vector3 size = max - min;
+        Vector3 center = min + size * 0.5f;
+
+        Gizmos.DrawWireCube(center, size);
     }
 }
