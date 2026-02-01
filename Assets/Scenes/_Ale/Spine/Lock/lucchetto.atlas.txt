@@ -1,0 +1,6 @@
+lucchetto.png
+size:115,96
+filter:Linear,Linear
+pma:true
+lucchetto
+bounds:2,2,111,92
