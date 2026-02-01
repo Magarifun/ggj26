@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!60 &549543160607932659
 PolygonCollider2D:
@@ -402,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!60 &3387915419944536593
 PolygonCollider2D:
@@ -732,7 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!60 &8712191844649749291
 PolygonCollider2D:
@@ -1339,7 +1339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!60 &1763331394228699107
 PolygonCollider2D:
@@ -1669,7 +1669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!60 &2979207962631664393
 PolygonCollider2D:
@@ -1860,7 +1860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!60 &6507978121404792009
 PolygonCollider2D:
@@ -2108,6 +2108,7 @@ GameObject:
   - component: {fileID: 3327686245325882394}
   - component: {fileID: 4253536769261467109}
   - component: {fileID: 8970163379676389010}
+  - component: {fileID: 3465123207476255268}
   m_Layer: 0
   m_Name: Card_16
   m_TagString: Untagged
@@ -2214,6 +2215,7 @@ MonoBehaviour:
   dbg_predictedBoundsMin: {x: 0, y: 0}
   dbg_predictedBoundsMax: {x: 0, y: 0}
   dbg_tolerance: 0
+  isDragging: 0
   isPlaced: 0
 --- !u!114 &2684109339649122651
 MonoBehaviour:
@@ -2306,3 +2308,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardUnlockState
   unlocked: 0
+--- !u!114 &3465123207476255268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8950744177441851169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e99a1a4313054d46b4cf24d4ae10387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  searchInParents: 0
+  dragDrop: {fileID: 8745144422362989223}
+  tweenType: 1
+  speed: 1.5
+  ease:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleAmplitude: 0.05
+  rotationAmplitudeDeg: 4
+  resetOnStop: 1
+  disableOnStop: 1

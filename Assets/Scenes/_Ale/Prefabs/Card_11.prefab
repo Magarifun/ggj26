@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!114 &3285817465670557277
 MonoBehaviour:
@@ -564,6 +564,7 @@ GameObject:
   - component: {fileID: 9181665542345575447}
   - component: {fileID: 5440035177231763759}
   - component: {fileID: 6384910212586775537}
+  - component: {fileID: 4683478245072292805}
   m_Layer: 0
   m_Name: Card_11
   m_TagString: Untagged
@@ -670,6 +671,7 @@ MonoBehaviour:
   dbg_predictedBoundsMin: {x: 0, y: 0}
   dbg_predictedBoundsMax: {x: 0, y: 0}
   dbg_tolerance: 0
+  isDragging: 0
   isPlaced: 0
 --- !u!114 &955056258633657180
 MonoBehaviour:
@@ -770,6 +772,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardUnlockState
   unlocked: 0
+--- !u!114 &4683478245072292805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4728059666096470620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e99a1a4313054d46b4cf24d4ae10387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  searchInParents: 0
+  dragDrop: {fileID: 5839011375755796921}
+  tweenType: 1
+  speed: 1.5
+  ease:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleAmplitude: 0.05
+  rotationAmplitudeDeg: 4
+  resetOnStop: 1
+  disableOnStop: 1
 --- !u!1 &4770716151560969882
 GameObject:
   m_ObjectHideFlags: 0

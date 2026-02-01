@@ -916,7 +916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!60 &4046801934810549759
 PolygonCollider2D:
@@ -1438,7 +1438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!60 &4040320048676927714
 PolygonCollider2D:
@@ -1767,7 +1767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!60 &8975332326634418765
 PolygonCollider2D:
@@ -2490,6 +2490,7 @@ GameObject:
   - component: {fileID: 4905525202423131389}
   - component: {fileID: 1069185238561480477}
   - component: {fileID: 2598915998720963029}
+  - component: {fileID: 5261613512783781288}
   m_Layer: 0
   m_Name: Card_7
   m_TagString: Untagged
@@ -2596,6 +2597,7 @@ MonoBehaviour:
   dbg_predictedBoundsMin: {x: 0, y: 0}
   dbg_predictedBoundsMax: {x: 0, y: 0}
   dbg_tolerance: 0
+  isDragging: 0
   isPlaced: 0
 --- !u!114 &8794072743011955488
 MonoBehaviour:
@@ -2690,6 +2692,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardUnlockState
   unlocked: 0
+--- !u!114 &5261613512783781288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433160802316534452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e99a1a4313054d46b4cf24d4ae10387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  searchInParents: 0
+  dragDrop: {fileID: 5211392875750846752}
+  tweenType: 1
+  speed: 1.5
+  ease:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleAmplitude: 0.05
+  rotationAmplitudeDeg: 4
+  resetOnStop: 1
+  disableOnStop: 1
 --- !u!1 &6739401571257113524
 GameObject:
   m_ObjectHideFlags: 0

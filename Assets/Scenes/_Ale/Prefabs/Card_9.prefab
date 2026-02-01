@@ -59,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 302874c6d7f744d2d984106889f0c06e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -198,7 +198,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 302874c6d7f744d2d984106889f0c06e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -447,7 +447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!114 &5399090708776899399
 MonoBehaviour:
@@ -641,7 +641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!114 &8442762307301186079
 MonoBehaviour:
@@ -680,6 +680,7 @@ GameObject:
   - component: {fileID: 3298203131611802847}
   - component: {fileID: 8332264994528591219}
   - component: {fileID: 3260186139565931531}
+  - component: {fileID: 6805477941139952667}
   m_Layer: 0
   m_Name: Card_9
   m_TagString: Untagged
@@ -786,6 +787,7 @@ MonoBehaviour:
   dbg_predictedBoundsMin: {x: 0, y: 0}
   dbg_predictedBoundsMax: {x: 0, y: 0}
   dbg_tolerance: 0
+  isDragging: 0
   isPlaced: 0
 --- !u!114 &3452278055802769188
 MonoBehaviour:
@@ -882,6 +884,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardUnlockState
   unlocked: 0
+--- !u!114 &6805477941139952667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3262561098908381287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e99a1a4313054d46b4cf24d4ae10387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  searchInParents: 0
+  dragDrop: {fileID: 6212330861020999415}
+  tweenType: 1
+  speed: 1.5
+  ease:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleAmplitude: 0.05
+  rotationAmplitudeDeg: 4
+  resetOnStop: 1
+  disableOnStop: 1
 --- !u!1 &3322424747668904167
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,7 +988,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 302874c6d7f744d2d984106889f0c06e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1191,7 +1237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
+  score: 2
   impulse: 2
 --- !u!114 &3666269625999781678
 MonoBehaviour:
@@ -1275,7 +1321,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 302874c6d7f744d2d984106889f0c06e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1413,7 +1459,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 302874c6d7f744d2d984106889f0c06e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1666,7 +1712,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 302874c6d7f744d2d984106889f0c06e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

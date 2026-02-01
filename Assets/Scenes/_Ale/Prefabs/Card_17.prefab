@@ -1233,6 +1233,7 @@ GameObject:
   - component: {fileID: 2264423716105271768}
   - component: {fileID: 3555919024380181152}
   - component: {fileID: 8807534125539545844}
+  - component: {fileID: 2413674549196140878}
   m_Layer: 0
   m_Name: Card_17
   m_TagString: Untagged
@@ -1339,6 +1340,7 @@ MonoBehaviour:
   dbg_predictedBoundsMin: {x: 0, y: 0}
   dbg_predictedBoundsMax: {x: 0, y: 0}
   dbg_tolerance: 0
+  isDragging: 0
   isPlaced: 0
 --- !u!114 &2519788161099111604
 MonoBehaviour:
@@ -1390,13 +1392,9 @@ MonoBehaviour:
   m_ShapePath:
   - {x: -1.5044682, y: -1.4968005, z: 0}
   - {x: -1.5121356, y: 0.51533544, z: 0}
-  - {x: -0.48443437, y: 0.49936467, z: 0}
-  - {x: -0.49210167, y: -0.48976815, z: 0}
-  - {x: 0.48936296, y: -0.4821005, z: 0}
-  - {x: 0.48169518, y: 1.5191678, z: 0}
-  - {x: 1.4968, y: 1.5198032, z: 0}
+  - {x: 1.4968, y: 0.50851834, z: 0}
   - {x: 1.4891324, y: -1.5044682, z: 0}
-  m_ShapePathHash: 1665008954
+  m_ShapePathHash: -1999519838
   m_InstanceId: 0
   m_ShadowShape2DComponent: {fileID: 0}
   m_ShadowShape2DProvider:
@@ -1405,8 +1403,8 @@ MonoBehaviour:
   m_ShadowMesh:
     m_Mesh: {fileID: 0}
     m_LocalBounds:
-      m_Center: {x: -0.007667899, y: 0.0076675415, z: 0}
-      m_Extent: {x: 1.5044677, y: 1.5121357, z: 0}
+      m_Center: {x: -0.007667899, y: -0.49456644, z: 0}
+      m_Extent: {x: 1.5044677, y: 1.0099018, z: 0}
     m_EdgeProcessing: 1
     m_TrimEdge: 0
     m_FlipX: 0
@@ -1435,6 +1433,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardUnlockState
   unlocked: 0
+--- !u!114 &2413674549196140878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8805280026313801926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e99a1a4313054d46b4cf24d4ae10387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  searchInParents: 0
+  dragDrop: {fileID: 4861332634735876053}
+  tweenType: 1
+  speed: 1.5
+  ease:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleAmplitude: 0.05
+  rotationAmplitudeDeg: 4
+  resetOnStop: 1
+  disableOnStop: 1
 --- !u!1 &8951992896179173259
 GameObject:
   m_ObjectHideFlags: 0

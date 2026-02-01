@@ -75,7 +75,7 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 
     // ===== internal =====
     private Collider2D draggerCollider;
-    private bool isDragging;
+    public bool isDragging;
     private Vector3 offset;
     private float fixedZ;
 
