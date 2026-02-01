@@ -18,15 +18,7 @@ public class Score : MonoBehaviour
             maxFontSize * Mathf.Log10(points) / Mathf.Log10(scoreForMaxFontSize), 
             minFontSize, 
             maxFontSize);
-        if (points >= 0)
-        {
-            label.text = $"+{points}";
-        }
-        else
-        {
-            label.text = points.ToString();
-        }
-        
+        label.text = points.ToString();
     }
 
     void Update()
