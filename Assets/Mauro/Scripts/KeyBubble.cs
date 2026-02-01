@@ -67,4 +67,9 @@ public class KeyBubble : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+    public void Display(bool state)
+    {
+        GetComponent<SpriteRenderer>().enabled = state;
+    }
 }
