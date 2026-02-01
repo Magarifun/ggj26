@@ -16,8 +16,10 @@ public class Chase : MonoBehaviour
     public int[] extraCheckpointAtLevels;
     public ChaseIcon chaser;
     public ChaseIcon chased;
+    public ChaseIcon door;
+    public float doorProgress;
     public GameObject checkpoint; // kinda used like a prefab
-    public List<ChaseIcon> checkpoints;
+    private List<ChaseIcon> checkpoints = new();
     public TextMeshPro levelLabel;
     public TextMeshPro scoreLabel;
     public WolfPaw wolfPawPrefab;
@@ -91,6 +93,9 @@ public class Chase : MonoBehaviour
             cpIcon.Progress = progress;
             cpIcon.gameObject.SetActive(true);
         }
+        door.Progress = doorProgress;
+        door.gameObject.SetActive(true);
+        KeyBubble.Instance.gameObject.SetActive(true);
     }
 
     private void SetChaserSpeed()
@@ -133,10 +138,20 @@ public class Chase : MonoBehaviour
                 cpIcon.gameObject.SetActive(false);
             }
         }
+        if (chased.ActualProgress >= door.ActualProgress && door.gameObject.activeInHierarchy)
+        {
+            chased.frozen = true;
+        }
     }
 
     public void SpawnWolfPaw()
     {
         Instantiate(wolfPawPrefab, transform.position + Vector3.down * 3, Quaternion.identity);
+    }
+
+    public void UnlockDoor()
+    {
+        door.gameObject.SetActive(false);
+        chased.frozen = false;
     }
 }

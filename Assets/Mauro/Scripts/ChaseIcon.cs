@@ -4,6 +4,7 @@ using UnityEngine;
 public class ChaseIcon : MonoBehaviour
 {
     public float progressMaxSpeed = 0.2f;
+    public bool frozen = false;
     private float targetProgress = 999; // 0 to 1
     private float actualProgress = 999; // 0 to 1
     private float speed = 0f;
@@ -27,8 +28,10 @@ public class ChaseIcon : MonoBehaviour
         targetProgress += speed * Time.deltaTime;
         Bounds parentBounds = transform.parent.GetComponent<Collider2D>().bounds;
         float parentWidth = parentBounds.size.x;
-        float ownWidth = transform.GetComponent<SpriteRenderer>().size.x; 
-        actualProgress = Mathf.MoveTowards(actualProgress, targetProgress, progressMaxSpeed * Time.deltaTime);
+        float ownWidth = transform.GetComponentInChildren<SpriteRenderer>().size.x;
+        if (!frozen) {
+            actualProgress = Mathf.MoveTowards(actualProgress, targetProgress, progressMaxSpeed * Time.deltaTime);
+        };
         float inset = (parentWidth - ownWidth) * actualProgress;
         float minX = parentBounds.min.x;
         transform.position = new(minX + inset + ownWidth / 2, transform.position.y, transform.position.z);
