@@ -1232,6 +1232,7 @@ GameObject:
   - component: {fileID: 2519788161099111604}
   - component: {fileID: 2264423716105271768}
   - component: {fileID: 3555919024380181152}
+  - component: {fileID: 8807534125539545844}
   m_Layer: 0
   m_Name: Card_17
   m_TagString: Untagged
@@ -1312,7 +1313,7 @@ MonoBehaviour:
   snapWhileDragging: 1
   dragSnapDistance: 2.5
   useSnapLimits: 1
-  snapAreaMin: {x: -10.58, y: -6}
+  snapAreaMin: {x: -10, y: -6}
   snapAreaMax: {x: 6, y: 4.5}
   hardClampToLimits: 1
   insideTolerance: 0.02
@@ -1351,7 +1352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0800692b7f8fa41bb8f3f83ac31e14c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  cardId: Card_6
+  cardId: Card_17
   maxCopies: 2
 --- !u!114 &2264423716105271768
 MonoBehaviour:
@@ -1421,6 +1422,19 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+--- !u!114 &8807534125539545844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8805280026313801926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d978a42086f5b421dbdc064f0b51647f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardUnlockState
+  unlocked: 0
 --- !u!1 &8951992896179173259
 GameObject:
   m_ObjectHideFlags: 0

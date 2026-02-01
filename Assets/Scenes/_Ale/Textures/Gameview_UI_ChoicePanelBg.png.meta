@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eec2748d44ed4424daee475badf6d6f3
+guid: 1f99541d55dd84d6685582c97ce46728
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PatchBall_1
+      name: Gameview_UI_ChoicePanelBg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 838
-        height: 468
+        x: 1
+        y: 7
+        width: 1052
+        height: 554
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83acd05d72d5c4f55ac4d6259bd08b70
-      internalID: -750746009
+      spriteID: ba2659429797746448c8ca4e43b93fa7
+      internalID: 1322076710
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 504a99e04d8f742ab836332b603b8412
+    spriteID: 8874a10bb25f64131a2383c76807c8e3
     internalID: 0
     vertices: []
     indices: 
@@ -147,13 +147,7 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      PatchBall_0: -1863021445
-      PatchBall_1: -750746009
-      PatchBall_2: -221879929
-      PatchBall_3: -1016252727
-      PatchBall_4: 1167915539
-      PatchBall_5: 54967618
-      PatchBall_6: -370350503
+      Gameview_UI_ChoicePanelBg_0: 1322076710
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

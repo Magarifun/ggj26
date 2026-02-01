@@ -620,13 +620,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayRandomSoundFromArray
   source: {fileID: 0}
   clips:
-  - {fileID: 8300000, guid: 3dd8ed238c977477cbeea17f9ef1779f, type: 3}
+  - {fileID: 8300000, guid: 61508a35572f7451f894d0419a9f34c9, type: 3}
   playOnEnable: 0
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.8, y: 1.2}
-  randomizeVolume: 1
-  volumeRange: {x: 10, y: 20}
+  randomizeVolume: 0
+  volumeRange: {x: 1, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &3239732126715342068
 GameObject:
@@ -1533,13 +1533,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayRandomSoundFromArray
   source: {fileID: 0}
   clips:
-  - {fileID: 8300000, guid: 3dd8ed238c977477cbeea17f9ef1779f, type: 3}
+  - {fileID: 8300000, guid: 61508a35572f7451f894d0419a9f34c9, type: 3}
   playOnEnable: 0
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.8, y: 1.2}
-  randomizeVolume: 1
-  volumeRange: {x: 10, y: 20}
+  randomizeVolume: 0
+  volumeRange: {x: 1, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &8161197842064708384
 GameObject:
