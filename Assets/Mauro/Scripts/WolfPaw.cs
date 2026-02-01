@@ -34,6 +34,7 @@ public class WolfPaw : MonoBehaviour
     private ChromaticAberration chroma;
     private float chromaBase;
     private bool chromaHasOverride;
+    private bool chromaOngoing;
 
     void Start()
     {
@@ -157,9 +158,11 @@ public class WolfPaw : MonoBehaviour
     private void TriggerChromaticPulse()
     {
         if (chroma == null) return;
-
-        StopCoroutine(nameof(ChromaticPulseCoroutine));
-        StartCoroutine(ChromaticPulseCoroutine());
+        if (chromaOngoing ==false){
+            chromaOngoing = true;
+            StopCoroutine(nameof(ChromaticPulseCoroutine));
+            StartCoroutine(ChromaticPulseCoroutine());
+        }
     }
 
     private System.Collections.IEnumerator ChromaticPulseCoroutine()
@@ -188,5 +191,6 @@ public class WolfPaw : MonoBehaviour
         // ripristino finale
         chroma.intensity.value = chromaBase;
         chroma.intensity.overrideState = chromaHasOverride;
+        chromaOngoing = false;
     }
 }
