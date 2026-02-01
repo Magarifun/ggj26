@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5000770033320016746}
   - component: {fileID: 4619648906962437942}
+  - component: {fileID: 6719469520107986681}
   m_Layer: 7
   m_Name: Wolf Paw
   m_TagString: Untagged
@@ -75,6 +76,28 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6719469520107986681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5690803381541695288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fcc2777592b64ad692b60e34aa240da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayRandomSoundFromArray
+  source: {fileID: 0}
+  clips:
+  - {fileID: 8300000, guid: 3dd8ed238c977477cbeea17f9ef1779f, type: 3}
+  playOnEnable: 1
+  playOnStart: 0
+  randomizePitch: 0
+  pitchRange: {x: 0.95, y: 1.05}
+  randomizeVolume: 0
+  volumeRange: {x: 0.85, y: 1}
+  avoidImmediateRepeat: 1
 --- !u!1 &5870911050886092001
 GameObject:
   m_ObjectHideFlags: 0
