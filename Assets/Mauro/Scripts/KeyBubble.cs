@@ -5,16 +5,15 @@ public class KeyBubble : MonoBehaviour
 {
     public float brownianSpeed;
     public float perlinSpeed;
-    private Vector3 center;
+    private Vector3 anchor;
     private static KeyBubble instance;
     public static KeyBubble Instance => instance;
     private bool restoring = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-    private void Awake()
+    public void SetAnchor()
     {
-        center = transform.position;
+        transform.position = new Vector3(Random.Range(-4.5f, 4.5f), transform.position.y, transform.position.z);
+        anchor = transform.position;
     }
 
     private void Start()
@@ -25,6 +24,7 @@ public class KeyBubble : MonoBehaviour
             return;
         }
         instance = this;
+        SetAnchor();
     }
 
     private void BackToBrownian()
@@ -35,11 +35,11 @@ public class KeyBubble : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float venturing = Vector3.Distance(transform.position, center);
+        float venturing = Vector3.Distance(transform.position, anchor);
         if (restoring || venturing > 0.5f)
         {
             // Vector toward the center
-            Vector3 toCenter = (center - transform.position) * 2;
+            Vector3 toCenter = (anchor - transform.position) * 2;
 
             transform.Translate(brownianSpeed * Time.deltaTime * toCenter);
             if (!restoring)
@@ -63,6 +63,7 @@ public class KeyBubble : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Chase.Instance.UnlockDoor();
+            SetAnchor();
             gameObject.SetActive(false);
         }
     }
