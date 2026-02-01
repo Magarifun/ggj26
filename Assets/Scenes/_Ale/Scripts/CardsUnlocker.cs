@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class CardsUnlocker : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private CardPoolManager pool;
     [SerializeField] private Camera cam;
+    [SerializeField] private GameObject curtain;
 
     [Header("Spawn points (World)")]
     [SerializeField] private Transform choicePointA;
@@ -142,6 +144,9 @@ public class CardsUnlocker : MonoBehaviour
         }
 
         HideRootsChildren();
+        KeyBubble.Instance.Display(false);
+        DisplayBallLights(false);
+        curtain.SetActive(true);
 
         if (pauseAudioListener)
         {
@@ -152,7 +157,7 @@ public class CardsUnlocker : MonoBehaviour
         if (pauseWithTimeScale)
         {
             prevTimeScale = Time.timeScale;
-            Time.timeScale = 0f;
+            Time.timeScale = 0.01f;
         }
     }
 
@@ -167,6 +172,9 @@ public class CardsUnlocker : MonoBehaviour
             AudioListener.pause = prevAudioPaused;
 
         RestoreHiddenObjects();
+        KeyBubble.Instance.Display(true);
+        DisplayBallLights(true);
+        curtain.SetActive(false);
 
         foreach (var kv in prevEnabledState)
         {
@@ -200,6 +208,14 @@ public class CardsUnlocker : MonoBehaviour
 
                 CacheAndSetActive(child.gameObject, false);
             }
+        }
+    }
+
+    private void DisplayBallLights(bool state)
+    {
+        foreach (Ball ball in GameObject.FindObjectsByType<Ball>(FindObjectsSortMode.None))
+        {
+            ball.GetComponentInChildren<Light2D>(includeInactive: true).enabled = state;
         }
     }
 
@@ -250,9 +266,7 @@ public class CardsUnlocker : MonoBehaviour
         }
 
         GameObject go = Instantiate(prefab, point.position, point.rotation, choicesRoot);
-        var p = go.transform.position;
-        p.z = -1f;
-        go.transform.position = p;
+        go.transform.localPosition += Vector3.back;
         go.SetActive(true);
         go.name = $"UNLOCK_CHOICE_{cardId}";
 
