@@ -428,6 +428,8 @@ GameObject:
   - component: {fileID: 3143008022658102915}
   - component: {fileID: 2404041414161536374}
   - component: {fileID: 1044885459350326199}
+  - component: {fileID: 2913131196392651628}
+  - component: {fileID: 7064980266207473665}
   m_Layer: 0
   m_Name: Bumper_Left (4)
   m_TagString: Untagged
@@ -550,6 +552,82 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
   score: 2
   impulse: 2
+--- !u!60 &2913131196392651628
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172069441311429174}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.35, y: 0.5}
+      - {x: -0.34, y: 0.34}
+      - {x: -0.35, y: 0.32}
+      - {x: -0.35, y: 0.08}
+      - {x: 0.089999996, y: -0.42}
+      - {x: 0.5, y: -0.42}
+      - {x: 0.5, y: 0.5}
+  m_UseDelaunayMesh: 1
+--- !u!114 &7064980266207473665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172069441311429174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fcc2777592b64ad692b60e34aa240da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayRandomSoundFromArray
+  source: {fileID: 0}
+  clips:
+  - {fileID: 8300000, guid: de0ec12adb7304af78d934d8019723db, type: 3}
+  playOnEnable: 0
+  playOnStart: 0
+  randomizePitch: 1
+  pitchRange: {x: 0.5, y: 2}
+  randomizeVolume: 0
+  volumeRange: {x: 1, y: 1}
+  avoidImmediateRepeat: 1
 --- !u!1 &1612280863276448721
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,6 +640,8 @@ GameObject:
   - component: {fileID: 6092967569444087499}
   - component: {fileID: 2559326863193918118}
   - component: {fileID: 4641667871693206638}
+  - component: {fileID: 3223388635758811313}
+  - component: {fileID: 6723661800823690976}
   m_Layer: 0
   m_Name: Bumper_Left (7)
   m_TagString: Untagged
@@ -684,6 +764,83 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
   score: 2
   impulse: 2
+--- !u!60 &3223388635758811313
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612280863276448721}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.34, y: 0.5}
+      - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.42}
+      - {x: -0.42999998, y: -0.42}
+      - {x: -0.12, y: -0.39}
+      - {x: 0.17, y: -0.16}
+      - {x: 0.35, y: 0.19999999}
+      - {x: 0.35, y: 0.48}
+  m_UseDelaunayMesh: 1
+--- !u!114 &6723661800823690976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612280863276448721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fcc2777592b64ad692b60e34aa240da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayRandomSoundFromArray
+  source: {fileID: 0}
+  clips:
+  - {fileID: 8300000, guid: de0ec12adb7304af78d934d8019723db, type: 3}
+  playOnEnable: 0
+  playOnStart: 0
+  randomizePitch: 1
+  pitchRange: {x: 0.5, y: 2}
+  randomizeVolume: 0
+  volumeRange: {x: 1, y: 1}
+  avoidImmediateRepeat: 1
 --- !u!1 &2302543357410946617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1903,6 +2060,8 @@ GameObject:
   - component: {fileID: 1009095935326259179}
   - component: {fileID: 8847879864637376774}
   - component: {fileID: 6752777415875702218}
+  - component: {fileID: 896835289429980360}
+  - component: {fileID: 893353114954549913}
   m_Layer: 0
   m_Name: Bumper_Left (5)
   m_TagString: Untagged
@@ -2025,6 +2184,82 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
   score: 2
   impulse: 2
+--- !u!114 &896835289429980360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8855816320847445525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fcc2777592b64ad692b60e34aa240da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayRandomSoundFromArray
+  source: {fileID: 0}
+  clips:
+  - {fileID: 8300000, guid: de0ec12adb7304af78d934d8019723db, type: 3}
+  playOnEnable: 0
+  playOnStart: 0
+  randomizePitch: 1
+  pitchRange: {x: 0.5, y: 2}
+  randomizeVolume: 0
+  volumeRange: {x: 1, y: 1}
+  avoidImmediateRepeat: 1
+--- !u!60 &893353114954549913
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8855816320847445525}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.25, y: 0.29999998}
+      - {x: -0.099999994, y: 0.14}
+      - {x: -0.32, y: -0.22999999}
+      - {x: -0.35, y: -0.47}
+      - {x: -0.35, y: -0.5}
+      - {x: 0.5, y: -0.5}
+      - {x: 0.5, y: 0.29999998}
+  m_UseDelaunayMesh: 1
 --- !u!1 &9032158409652523939
 GameObject:
   m_ObjectHideFlags: 0
@@ -2037,6 +2272,8 @@ GameObject:
   - component: {fileID: 3444113646454785292}
   - component: {fileID: 8099294998736645243}
   - component: {fileID: 4821369640884560976}
+  - component: {fileID: 4110614011229550826}
+  - component: {fileID: 2884976531731169193}
   m_Layer: 0
   m_Name: Bumper_Left (6)
   m_TagString: Untagged
@@ -2159,3 +2396,79 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
   score: 2
   impulse: 2
+--- !u!60 &4110614011229550826
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9032158409652523939}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.01, y: 0.19999999}
+      - {x: -0.22, y: 0.29}
+      - {x: -0.35999998, y: 0.29999998}
+      - {x: -0.5, y: 0.29999998}
+      - {x: -0.5, y: -0.5}
+      - {x: 0.34, y: -0.5}
+      - {x: 0.34, y: -0.26999998}
+  m_UseDelaunayMesh: 1
+--- !u!114 &2884976531731169193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9032158409652523939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fcc2777592b64ad692b60e34aa240da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayRandomSoundFromArray
+  source: {fileID: 0}
+  clips:
+  - {fileID: 8300000, guid: de0ec12adb7304af78d934d8019723db, type: 3}
+  playOnEnable: 0
+  playOnStart: 0
+  randomizePitch: 1
+  pitchRange: {x: 0.5, y: 2}
+  randomizeVolume: 0
+  volumeRange: {x: 1, y: 1}
+  avoidImmediateRepeat: 1
