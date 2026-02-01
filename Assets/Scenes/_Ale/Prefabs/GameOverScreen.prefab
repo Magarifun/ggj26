@@ -225,7 +225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5963307269630547198
 Transform:
   m_ObjectHideFlags: 0
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: spine-unity::Spine.Unity.SkeletonAnimation
-  skeletonDataAsset: {fileID: 11400000, guid: c4ea0513c716b41d58756f60e0c32096, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: c2032778c7e284bbebabfca1d0115298, type: 2}
   initialSkinName: lupo
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -331,7 +331,7 @@ MonoBehaviour:
   updateTiming: 1
   unscaledTime: 0
   _animationName: lupo-fine-lunga
-  loop: 1
+  loop: 0
   timeScale: 1
 --- !u!33 &2831828470214189077
 MeshFilter:
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8197600466330329202}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
   m_Name: 
@@ -483,7 +483,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8339839247428395790
 Transform:
   m_ObjectHideFlags: 0
@@ -560,7 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: spine-unity::Spine.Unity.SkeletonAnimation
-  skeletonDataAsset: {fileID: 11400000, guid: c4ea0513c716b41d58756f60e0c32096, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: c2032778c7e284bbebabfca1d0115298, type: 2}
   initialSkinName: cappuccetto
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
   updateTiming: 1
   unscaledTime: 0
   _animationName: cappuccetto-fine-lunga
-  loop: 1
+  loop: 0
   timeScale: 1
 --- !u!33 &7193175338362161538
 MeshFilter:
@@ -628,7 +628,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8820189596903157152}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
   m_Name: 
