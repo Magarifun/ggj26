@@ -208,11 +208,11 @@ MonoBehaviour:
   initialPosition: {x: -3.83, y: 5.01, z: 0}
   chasedProgressAtLevelStart: 0.5
   chaseInitialDelay: 10
-  initialChaseDuration: 30
+  initialChaseDuration: 40
   extraDurationPerLevel: 0
   initialScoreGoal: 50
-  extraScoreGoalPerLevel: 50
-  extraCheckpointAtLevels: 02000000030000000400000006000000060000000600000006000000060000000600000006000000
+  extraScoreGoalPerLevel: 25
+  extraCheckpointAtLevels: 020000000300000004000000060000000600000006000000
   chaser: {fileID: 6339968439827918653}
   chased: {fileID: 4523222373810411823}
   door: {fileID: 1590957061802040147}
