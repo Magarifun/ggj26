@@ -23,6 +23,11 @@ public class Score : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale < 1.0)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Vector3 destination = Chase.Instance.chased.transform.position;
         speed += acceleration * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
