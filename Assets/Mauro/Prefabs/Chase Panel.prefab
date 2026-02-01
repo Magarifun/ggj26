@@ -209,10 +209,10 @@ MonoBehaviour:
   chasedProgressAtLevelStart: 0.5
   chaseInitialDelay: 10
   initialChaseDuration: 30
-  extraDurationPerLevel: 5
+  extraDurationPerLevel: 0
   initialScoreGoal: 50
-  extraScoreGoalPerLevel: 25
-  extraCheckpointAtLevels: 02000000030000000400000006000000
+  extraScoreGoalPerLevel: 50
+  extraCheckpointAtLevels: 02000000030000000400000006000000060000000600000006000000060000000600000006000000
   chaser: {fileID: 6339968439827918653}
   chased: {fileID: 4523222373810411823}
   door: {fileID: 1590957061802040147}
@@ -250,7 +250,31 @@ MonoBehaviour:
         m_CallState: 2
   onLevelUp:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: PlayRandomSoundFromArray, Assembly-CSharp
+        m_MethodName: PlayRandom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CardsUnlocker, Assembly-CSharp
+        m_MethodName: Show2RandomLockedChoices
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &4159106302951683396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -323,7 +347,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2363914920626847183}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -536,7 +560,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 302874c6d7f744d2d984106889f0c06e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -794,6 +818,7 @@ GameObject:
   - component: {fileID: 4094104855491241720}
   - component: {fileID: 142123926194979309}
   - component: {fileID: 574892652105018867}
+  - component: {fileID: 5590801908607376020}
   m_Layer: 0
   m_Name: Lupo
   m_TagString: Untagged
@@ -916,6 +941,58 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8058931277696376601}
   m_Mesh: {fileID: 0}
+--- !u!114 &5590801908607376020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058931277696376601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.ShadowCaster2D
+  m_ShadowGroup: 0
+  m_Priority: 20
+  m_ComponentVersion: 5
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.99042207, y: 2.0716531, z: 0}
+  - {x: -0.62940866, y: 5.4095016, z: 0}
+  - {x: 0.37676832, y: 4.9040833, z: 0}
+  - {x: 0.5211734, y: 1.7828429, z: 0}
+  m_ShapePathHash: -2106908075
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 0}
+  m_ShadowShape2DProvider:
+    rid: -2
+  m_ShadowCastingSource: 1
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: -0.23462433, y: 3.5961723, z: 0}
+      m_Extent: {x: 0.75579774, y: 1.8133293, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 1
+  m_PreviousShadowShape2DSource: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &8851785094557799372
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,7 +1019,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8851785094557799372}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

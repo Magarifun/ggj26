@@ -133,8 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
-  impulse: 0
+  score: 2
+  impulse: 3
 --- !u!60 &6992813641864757187
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -821,8 +821,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
-  impulse: 0
+  score: 2
+  impulse: 3
 --- !u!60 &5332800555872692700
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1052,8 +1052,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
-  impulse: 0
+  score: 2
+  impulse: 3
 --- !u!60 &5585460945160393776
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1385,8 +1385,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16569f7ad459545ad03aa676f873ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  score: 10
-  impulse: 0
+  score: 2
+  impulse: 3
 --- !u!60 &4711193723085504884
 PolygonCollider2D:
   m_ObjectHideFlags: 0
