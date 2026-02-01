@@ -296,10 +296,22 @@ public class CardsUnlocker : MonoBehaviour
         spawned.Add(go);
     }
 
+    private void DestroyAllBallsInScene()
+{
+    // Trova tutti i Ball (inclusi quelli clonati) e distrugge il loro GameObject
+    Ball[] balls = GameObject.FindObjectsByType<Ball>(FindObjectsSortMode.None);
+    for (int i = 0; i < balls.Length; i++)
+    {
+        if (balls[i] == null) continue;
+        Destroy(balls[i].gameObject);
+    }
+}
+
     private void UnlockSelected(string cardId)
     {
         pool.SetCardUnlocked(cardId, true);
         ClearChoices();
+        DestroyAllBallsInScene();
     }
 
     // ----------------- Utils -----------------

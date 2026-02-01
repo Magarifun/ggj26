@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class KeyBubble : MonoBehaviour
 {
+    public KeyCode cheat = KeyCode.K;
     public float brownianSpeed;
     public float perlinSpeed;
     private Vector3 anchor;
@@ -35,6 +36,11 @@ public class KeyBubble : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(cheat))
+        {
+            PickKey();
+        }
+
         float venturing = Vector3.Distance(transform.position, anchor);
         if (restoring || venturing > 0.5f)
         {
@@ -62,10 +68,15 @@ public class KeyBubble : MonoBehaviour
         Debug.Log("KeyBubble collided with " + collision.gameObject.name);
         if (collision.gameObject.CompareTag("Player"))
         {
-            Chase.Instance.UnlockDoor();
-            SetAnchor();
-            gameObject.SetActive(false);
+            PickKey();
         }
+    }
+
+    private void PickKey()
+    {
+        Chase.Instance.UnlockDoor();
+        SetAnchor();
+        gameObject.SetActive(false);
     }
 
     public void Display(bool state)
