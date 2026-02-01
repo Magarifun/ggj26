@@ -29,11 +29,9 @@ public class Scorer : MonoBehaviour
         score.points = points;
 
         PlayRandomSoundFromArray sfx = origin.GetComponent<PlayRandomSoundFromArray>();
-        Debug.Log(sfx);
         if (sfx)
         {
             sfx.PlayRandom();
-            Debug.Log("PLAY RANDOM FROM SCORER");
         }
     }
 }
