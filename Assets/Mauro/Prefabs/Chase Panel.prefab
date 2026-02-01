@@ -818,7 +818,7 @@ GameObject:
   - component: {fileID: 4094104855491241720}
   - component: {fileID: 142123926194979309}
   - component: {fileID: 574892652105018867}
-  - component: {fileID: 5590801908607376020}
+  - component: {fileID: 7672775283174420815}
   m_Layer: 0
   m_Name: Lupo
   m_TagString: Untagged
@@ -941,7 +941,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8058931277696376601}
   m_Mesh: {fileID: 0}
---- !u!114 &5590801908607376020
+--- !u!114 &7672775283174420815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
