@@ -5,13 +5,26 @@ public class Flipper : MonoBehaviour
     public int score = 50;
     public float impulseFactor;
     private Rigidbody2D body;
+    private Animator animator;
+    private CardDragAndDrop2D_SnapSortingErase card;
+    private bool inPlace = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        card = GetComponentInParent<CardDragAndDrop2D_SnapSortingErase>();
+        animator = GetComponent<Animator>();
+        animator.animatePhysics = false;
     }
 
+    private void Update()
+    {
+        if (card == null || card.isPlaced)
+        {
+            animator.animatePhysics = true;
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
