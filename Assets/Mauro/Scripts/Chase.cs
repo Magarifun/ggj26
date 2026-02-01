@@ -32,13 +32,14 @@ public class Chase : MonoBehaviour
 
     void Start()
     {
-        checkpoint.SetActive(false);
-        transform.position = initialPosition;
         if (instance != null)
         {
             Destroy(this);
             return;
         }
+        levelLabel.gameObject.SetActive(false);
+        checkpoint.SetActive(false);
+        transform.position = initialPosition;
         instance = this;
         SetLevel(1);
         OnUpdateScore();
@@ -54,6 +55,7 @@ public class Chase : MonoBehaviour
         scoreGoal = initialScoreGoal + extraScoreGoalPerLevel * (level - 1);
         if (level > 1)
         {
+            levelLabel.gameObject.SetActive(true);
             SetChaserSpeed();
         }
         else
