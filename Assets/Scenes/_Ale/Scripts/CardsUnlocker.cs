@@ -250,6 +250,9 @@ public class CardsUnlocker : MonoBehaviour
         }
 
         GameObject go = Instantiate(prefab, point.position, point.rotation, choicesRoot);
+        var p = go.transform.position;
+        p.z = -1f;
+        go.transform.position = p;
         go.SetActive(true);
         go.name = $"UNLOCK_CHOICE_{cardId}";
 

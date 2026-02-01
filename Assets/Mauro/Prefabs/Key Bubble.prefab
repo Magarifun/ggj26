@@ -141,3 +141,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31672b4e5789c3f4795b856de67ff061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeyBubble
+  brownianSpeed: 1
+  perlinSpeed: 0.1
