@@ -8,7 +8,7 @@ public class WolfPaw : MonoBehaviour
     [Header("Paw")]
     public float duration = 0.5f;
     public float length = 5.0f;
-    public float range = 0.5f;
+    public float range = 2f;
 
     private float speed;
     private readonly List<GameObject> cards = new();
