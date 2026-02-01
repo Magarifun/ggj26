@@ -191,8 +191,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &1310945514177711954
 GameObject:
@@ -385,8 +385,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &2181276712760593134
 GameObject:
@@ -579,8 +579,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &2344607294195567116
 GameObject:
@@ -913,8 +913,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &2966377756022873034
 GameObject:
@@ -1247,8 +1247,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &4429381843503830365
 GameObject:
@@ -1937,8 +1937,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &6001643895629049071
 GameObject:
@@ -2131,8 +2131,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &6475622801684751534
 GameObject:
@@ -2325,8 +2325,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &6995042279803911203
 GameObject:
@@ -2837,8 +2837,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &8599072054098569437
 GameObject:
@@ -3031,8 +3031,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &8831150342334282300
 GameObject:
@@ -3488,8 +3488,8 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
 --- !u!1 &9198243900574895460
 GameObject:
@@ -3682,6 +3682,6 @@ MonoBehaviour:
   playOnStart: 0
   randomizePitch: 1
   pitchRange: {x: 0.5, y: 2}
-  randomizeVolume: 0
-  volumeRange: {x: 1, y: 1}
+  randomizeVolume: 1
+  volumeRange: {x: 0.5, y: 1}
   avoidImmediateRepeat: 1
