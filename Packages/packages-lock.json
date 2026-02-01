@@ -1,5 +1,13 @@
 {
   "dependencies": {
+    "com.esotericsoftware.spine.timeline": {
+      "version": "file:../Imports/com.esotericsoftware.spine.timeline-4.2",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.timeline": "1.2.10"
+      }
+    },
     "com.unity.2d.common": {
       "version": "12.0.2",
       "depth": 0,
