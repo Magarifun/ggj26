@@ -630,6 +630,7 @@ GameObject:
   - component: {fileID: 4124153260816188477}
   - component: {fileID: 7273141665522045711}
   - component: {fileID: 4046801934810549759}
+  - component: {fileID: 3140098380436290652}
   m_Layer: 0
   m_Name: Bumper_Round (4)
   m_TagString: Untagged
@@ -807,6 +808,28 @@ PolygonCollider2D:
       - {x: 0.24163619, y: 0.049923778}
       - {x: 0.19572455, y: 0.4648489}
   m_UseDelaunayMesh: 1
+--- !u!114 &3140098380436290652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146951697370717268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fcc2777592b64ad692b60e34aa240da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayRandomSoundFromArray
+  source: {fileID: 0}
+  clips:
+  - {fileID: 8300000, guid: de0ec12adb7304af78d934d8019723db, type: 3}
+  playOnEnable: 0
+  playOnStart: 0
+  randomizePitch: 1
+  pitchRange: {x: 0.5, y: 2}
+  randomizeVolume: 0
+  volumeRange: {x: 1, y: 1}
+  avoidImmediateRepeat: 1
 --- !u!1 &1165406894748495894
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,6 +1175,7 @@ GameObject:
   - component: {fileID: 6366902735173460695}
   - component: {fileID: 5102133111010731921}
   - component: {fileID: 4040320048676927714}
+  - component: {fileID: 7920170909041923399}
   m_Layer: 0
   m_Name: Bumper_Round (6)
   m_TagString: Untagged
@@ -1329,6 +1353,28 @@ PolygonCollider2D:
       - {x: 0.48009643, y: -0.4585908}
       - {x: 0.48833203, y: 0.46230486}
   m_UseDelaunayMesh: 1
+--- !u!114 &7920170909041923399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944946571565005061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fcc2777592b64ad692b60e34aa240da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayRandomSoundFromArray
+  source: {fileID: 0}
+  clips:
+  - {fileID: 8300000, guid: de0ec12adb7304af78d934d8019723db, type: 3}
+  playOnEnable: 0
+  playOnStart: 0
+  randomizePitch: 1
+  pitchRange: {x: 0.5, y: 2}
+  randomizeVolume: 0
+  volumeRange: {x: 1, y: 1}
+  avoidImmediateRepeat: 1
 --- !u!1 &2678466584395938370
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,6 +1527,7 @@ GameObject:
   - component: {fileID: 3256446598574378921}
   - component: {fileID: 4839392425595921540}
   - component: {fileID: 8975332326634418765}
+  - component: {fileID: 2528013540698751452}
   m_Layer: 0
   m_Name: Bumper_Round (5)
   m_TagString: Untagged
@@ -1660,6 +1707,28 @@ PolygonCollider2D:
       - {x: 0.27151853, y: -0.0084216}
       - {x: 0.08609009, y: 0.24015409}
   m_UseDelaunayMesh: 1
+--- !u!114 &2528013540698751452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2869320989133066082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fcc2777592b64ad692b60e34aa240da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayRandomSoundFromArray
+  source: {fileID: 0}
+  clips:
+  - {fileID: 8300000, guid: de0ec12adb7304af78d934d8019723db, type: 3}
+  playOnEnable: 0
+  playOnStart: 0
+  randomizePitch: 1
+  pitchRange: {x: 0.5, y: 2}
+  randomizeVolume: 0
+  volumeRange: {x: 1, y: 1}
+  avoidImmediateRepeat: 1
 --- !u!1 &3150476865587416302
 GameObject:
   m_ObjectHideFlags: 0
@@ -2342,7 +2411,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.38400006, y: -3.3760002, z: -1}
-  m_LocalScale: {x: 1.0776538, y: 1.0776538, z: 1.0776538}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6482804441562881101}
