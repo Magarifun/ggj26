@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0cca061804156443b3b4d04effddd9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WolfPaw
-  duration: 2
-  length: 10
-  range: 1
+  duration: 1
+  length: 8
+  range: 2
   globalVolumeName: Global Volume
   fxPulseDuration: 0.3
   chromaPeak: 0.8
