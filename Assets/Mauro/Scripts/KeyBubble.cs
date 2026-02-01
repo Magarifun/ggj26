@@ -70,6 +70,6 @@ public class KeyBubble : MonoBehaviour
 
     public void Display(bool state)
     {
-        GetComponent<SpriteRenderer>().enabled = state;
+        GetComponentInChildren<MeshRenderer>().enabled = state;
     }
 }
