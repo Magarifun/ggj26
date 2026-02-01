@@ -1536,7 +1536,7 @@ MonoBehaviour:
   snapWhileDragging: 1
   dragSnapDistance: 2.5
   useSnapLimits: 1
-  snapAreaMin: {x: -10.58, y: -6}
+  snapAreaMin: {x: -10.5, y: -6}
   snapAreaMax: {x: 6, y: 4.5}
   hardClampToLimits: 1
   insideTolerance: 0.02
@@ -1657,7 +1657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d978a42086f5b421dbdc064f0b51647f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardUnlockState
-  unlocked: 0
+  unlocked: 1
 --- !u!1 &8288133120305172295
 GameObject:
   m_ObjectHideFlags: 0

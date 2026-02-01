@@ -2570,7 +2570,7 @@ MonoBehaviour:
   snapWhileDragging: 1
   dragSnapDistance: 2.5
   useSnapLimits: 1
-  snapAreaMin: {x: -10.58, y: -6}
+  snapAreaMin: {x: -10.5, y: -6}
   snapAreaMax: {x: 6, y: 4.5}
   hardClampToLimits: 1
   insideTolerance: 0.02
