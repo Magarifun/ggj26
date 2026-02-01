@@ -145,7 +145,7 @@ public class CardsUnlocker : MonoBehaviour
 
         HideRootsChildren();
         KeyBubble.Instance.Display(false);
-        DisplayBallLights(false);
+        HaveBalls(false);
         curtain.SetActive(true);
 
         if (pauseAudioListener)
@@ -173,7 +173,7 @@ public class CardsUnlocker : MonoBehaviour
 
         RestoreHiddenObjects();
         KeyBubble.Instance.Display(true);
-        DisplayBallLights(true);
+        HaveBalls(true);
         curtain.SetActive(false);
 
         foreach (var kv in prevEnabledState)
@@ -211,12 +211,16 @@ public class CardsUnlocker : MonoBehaviour
         }
     }
 
-    private void DisplayBallLights(bool state)
+    private void HaveBalls(bool state)
     {
-        foreach (Ball ball in GameObject.FindObjectsByType<Ball>(FindObjectsSortMode.None))
+        if (!state)
         {
-            ball.GetComponentInChildren<Light2D>(includeInactive: true).enabled = state;
+            foreach (Ball ball in GameObject.FindObjectsByType<Ball>(FindObjectsSortMode.None))
+            {
+                Destroy(ball.gameObject);
+            }
         }
+        GameObject.FindFirstObjectByType<BallSpawner>().enabled = state;
     }
 
     private void RestoreHiddenObjects()
