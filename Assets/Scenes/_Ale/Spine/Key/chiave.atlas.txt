@@ -1,0 +1,9 @@
+chiave.png
+size:328,237
+filter:Linear,Linear
+pma:true
+Bolla
+bounds:2,2,233,233
+chiave_separata
+bounds:237,42,193,89
+rotate:90
