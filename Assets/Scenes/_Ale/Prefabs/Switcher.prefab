@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Switcher
   switcherGroup: Switchers
   threshold: 3
-  score: 100
+  score: 50
   toggler: 0
   onSprite: {fileID: 1221505560, guid: 01d84d2417d1cc64b85fe0a99a4d3e82, type: 3}
   offSprite: {fileID: 1885801055, guid: 6b4fc6924d21a9d41a31b9124ab53880, type: 3}
