@@ -170,6 +170,16 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     screenPos = default;
     down = held = up = false;
 
+    // MOUSE
+    if (Mouse.current != null)
+    {
+        screenPos = Mouse.current.position.ReadValue();
+        down = Mouse.current.leftButton.wasPressedThisFrame;
+        held = Mouse.current.leftButton.isPressed;
+        up = Mouse.current.leftButton.wasReleasedThisFrame;
+        return true;
+    }
+
     // TOUCH (Input System)
     if (Touchscreen.current != null)
     {
@@ -183,16 +193,6 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
 
         // Se non c’è nessun touch attivo in questo frame, held/down/up saranno tutti false.
         // Ritorniamo true comunque perché il device esiste (puoi anche decidere di tornare held||down||up).
-        return true;
-    }
-
-    // MOUSE
-    if (Mouse.current != null)
-    {
-        screenPos = Mouse.current.position.ReadValue();
-        down = Mouse.current.leftButton.wasPressedThisFrame;
-        held = Mouse.current.leftButton.isPressed;
-        up   = Mouse.current.leftButton.wasReleasedThisFrame;
         return true;
     }
 
