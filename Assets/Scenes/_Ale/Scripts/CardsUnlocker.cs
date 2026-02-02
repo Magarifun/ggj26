@@ -51,7 +51,7 @@ public class CardsUnlocker : MonoBehaviour
 
     private void Awake()
     {
-        if (pool == null) pool = FindObjectOfType<CardPoolManager>();
+        if (pool == null) pool = FindAnyObjectByType<CardPoolManager>();
         if (cam == null) cam = Camera.main;
         if (choicesRoot == null) choicesRoot = transform;
     }

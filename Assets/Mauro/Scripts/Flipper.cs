@@ -7,7 +7,6 @@ public class Flipper : MonoBehaviour
     private Rigidbody2D body;
     private Animator animator;
     private CardDragAndDrop2D_SnapSortingErase card;
-    private bool inPlace = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
