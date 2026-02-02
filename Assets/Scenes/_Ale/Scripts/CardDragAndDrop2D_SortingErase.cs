@@ -141,28 +141,63 @@ public class CardDragAndDrop2D_SnapSortingErase : MonoBehaviour
     }
 
     private void Update()
+{
+    if (cam == null || draggerCollider == null) return;
+
+    if (!TryGetPointer(out Vector2 pointerScreen, out bool down, out bool held, out bool up))
+        return;
+
+    Vector2 pointerWorld = cam.ScreenToWorldPoint(pointerScreen);
+
+    // Hover events: solo quando non stai trascinando
+    if (!isDragging)
+        UpdateHover(pointerWorld);
+    else
+        ClearHoverIfAny();
+
+    if (down)
+        TryBeginDrag(pointerWorld);
+
+    if (isDragging && held)
+        Drag(pointerWorld);
+
+    if (isDragging && up)
+        EndDrag();
+}
+
+    private bool TryGetPointer(out Vector2 screenPos, out bool down, out bool held, out bool up)
+{
+    screenPos = default;
+    down = held = up = false;
+
+    // TOUCH (Input System)
+    if (Touchscreen.current != null)
     {
-        if (cam == null || draggerCollider == null) return;
-        if (Mouse.current == null) return;
+        var t = Touchscreen.current.primaryTouch;
 
-        Vector2 mouseScreen = Mouse.current.position.ReadValue();
-        Vector2 mouseWorld = cam.ScreenToWorldPoint(mouseScreen);
+        // Nota: primaryTouch.position è valido anche se non premuto, ma noi useremo i bool
+        screenPos = t.position.ReadValue();
+        down = t.press.wasPressedThisFrame;
+        held = t.press.isPressed;
+        up   = t.press.wasReleasedThisFrame;
 
-        // Hover events: solo quando non stai trascinando
-        if (!isDragging)
-            UpdateHover(mouseWorld);
-        else
-            ClearHoverIfAny();
-
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-            TryBeginDrag(mouseWorld);
-
-        if (isDragging && Mouse.current.leftButton.isPressed)
-            Drag(mouseWorld);
-
-        if (isDragging && Mouse.current.leftButton.wasReleasedThisFrame)
-            EndDrag();
+        // Se non c’è nessun touch attivo in questo frame, held/down/up saranno tutti false.
+        // Ritorniamo true comunque perché il device esiste (puoi anche decidere di tornare held||down||up).
+        return true;
     }
+
+    // MOUSE
+    if (Mouse.current != null)
+    {
+        screenPos = Mouse.current.position.ReadValue();
+        down = Mouse.current.leftButton.wasPressedThisFrame;
+        held = Mouse.current.leftButton.isPressed;
+        up   = Mouse.current.leftButton.wasReleasedThisFrame;
+        return true;
+    }
+
+    return false;
+}
 
     private void TryBeginDrag(Vector2 mouseWorld)
     {
